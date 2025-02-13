@@ -1,5 +1,12 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { Providers } from "@/components/hero/providers";
+import "./globals.css";
+
+const langMap: { [key: string]: string } = {
+  zh: "zh-CN",
+  en: "en-US",
+};
 
 export default async function RootLayout({
   children,
@@ -8,15 +15,15 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <Providers locale={langMap[locale]} className="">
+            {children}
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

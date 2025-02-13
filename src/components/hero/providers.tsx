@@ -2,6 +2,10 @@
 "use client";
 import { HeroUIProvider } from "@heroui/react";
 
+const langMap: { [key: string]: string } = {
+  zh: "zh-CN",
+  en: "en-US",
+};
 export function Providers({
   children,
   className,
@@ -12,7 +16,7 @@ export function Providers({
   locale: string;
 }) {
   return (
-    <HeroUIProvider locale={locale} className={className}>
+    <HeroUIProvider locale={langMap[locale]} className={className}>
       {children}
     </HeroUIProvider>
   );

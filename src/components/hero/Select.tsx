@@ -12,7 +12,7 @@ interface AppProps {
 export default function App({ items, ...props }: AppProps) {
   return (
     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-      <Select className="max-w-xs" label=" " {...props}>
+      <Select className="max-w-xs" label={<span></span>} {...props}>
         {items.map((item) => (
           <SelectItem key={item.value}>{item.label}</SelectItem>
         ))}

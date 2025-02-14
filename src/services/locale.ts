@@ -15,3 +15,19 @@ export async function getUserLocale() {
 export async function setUserLocale(locale: Locale) {
   (await cookies()).set(COOKIE_NAME, locale);
 }
+
+const arr: any = []
+
+
+export async function pushData(val: any) {
+  arr.push(val)
+  return {
+    code: 200
+  }
+}
+export async function getTestData() {
+  return {
+    code: 200,
+    data: arr
+  }
+}

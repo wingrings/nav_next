@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
-import { Providers } from "@/components/hero/providers";
+import Providers from "@/components/Providers";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -13,17 +11,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const locale = await getLocale();
-  const messages = await getMessages();
-
   return (
-    <html lang={locale}>
+    <html>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          <Providers locale={locale} className="">
-            {children}
-          </Providers>
-        </NextIntlClientProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

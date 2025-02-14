@@ -13,7 +13,6 @@ export default async function RootLayout({
   return (
     <>
       <LocaleSwitcher />
-
       {children}
     </>
   );

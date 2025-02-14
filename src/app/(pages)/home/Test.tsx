@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { pushData, getTestData } from "@/services/locale";
 import clsx from "clsx";
-export default function Test() {
+export default function Test({ children }: any) {
   const [data, setData] = useState<any>([]);
   const [inputValue, setInputValue] = useState<any>("");
   useEffect(() => {
@@ -11,6 +11,7 @@ export default function Test() {
       getData();
     }, 3000);
   }, []);
+
   function getData() {
     getTestData().then((res) => {
       console.log(res);
@@ -25,6 +26,7 @@ export default function Test() {
   }
   return (
     <div>
+      {children}
       {/* 分割线 */}
       <hr />
       <h4>test</h4>

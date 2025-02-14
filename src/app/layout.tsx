@@ -14,6 +14,7 @@ export default async function RootLayout({
   return (
     <html>
       <body>
+        {/* {children} */}
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -1,3 +1,6 @@
+import { useTranslations } from "next-intl";
+
 export default function HomePage() {
-  return <>这是个空页面</>;
+  const t = useTranslations("HomePage");
+  return <>{t("title")}</>;
 }

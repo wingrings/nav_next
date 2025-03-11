@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -10,10 +9,5 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <LocaleSwitcher />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

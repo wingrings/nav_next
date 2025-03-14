@@ -4,6 +4,7 @@ import { getData, add } from "@/services/dome";
 
 export default async function Pages() {
   const posts = await getData();
+  console.log(posts, "posts??????");
 
   return (
     <div className="px-10 container">

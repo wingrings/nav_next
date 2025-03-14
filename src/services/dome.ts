@@ -2,7 +2,6 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
 
-const snippet = db.snippet
 
 export async function getData() {
   const posts = await db.snippet.findMany({
@@ -16,7 +15,7 @@ export async function getData() {
 
 
 export async function add(formData: FormData) {
-  await snippet.create({
+  await db.snippet.create({
     data: {
       title: formData.get('title') as string,
       code: formData.get('code') as string,
@@ -25,7 +24,7 @@ export async function add(formData: FormData) {
   redirect('/dome')
 }
 export async function delData(id: number) {
-  await snippet.delete({
+  await db.snippet.delete({
     where: {id}
   })
   redirect('/dome')

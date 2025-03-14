@@ -4,11 +4,7 @@ import { redirect } from "next/navigation";
 
 
 export async function getData() {
-  const posts = await db.snippet.findMany({
-    // include: {
-    //   author: true,
-    // },
-  });
+  const posts = await db.snippet.findMany();
   return posts
 }
 

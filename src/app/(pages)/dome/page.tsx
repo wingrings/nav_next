@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "./button_client";
-import { getData, add } from "@/services/dome";
+import { getData } from "@/services/dome";
 
 export default async function Pages() {
   const posts = await getData();
@@ -8,7 +8,7 @@ export default async function Pages() {
 
   return (
     <div className="px-10 container">
-      <form action={add}>
+      {/* <form action={add}>
         <h3 className="font-bold">create a snippet</h3>
         <div className="flex flex-col gap-4">
           <div>
@@ -29,7 +29,7 @@ export default async function Pages() {
             </button>
           </div>
         </div>
-      </form>
+      </form> */}
 
       <List list={posts}></List>
     </div>

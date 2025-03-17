@@ -14,7 +14,7 @@ export default function HomeLayout({
       <Header>
         <div className="text-white flex gap-5">
           <Link href={"/home"}>主页</Link>
-          <Link href={"/dome"}>dome</Link>
+          <Link href={"/box"}>box</Link>
         </div>
       </Header>
       <Content>

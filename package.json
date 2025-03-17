@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update:table": "npx Prisma db push"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
@@ -15,7 +16,6 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.2",
     "lodash": "^4.17.21",
-    "lowdb": "^7.0.1",
     "next": "15.1.7",
     "next-intl": "^3.26.3",
     "prisma": "^6.4.1",

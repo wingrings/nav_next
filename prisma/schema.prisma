@@ -10,8 +10,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Snippet {
+// model Snippet {
+//   id    Int    @id @default(autoincrement())
+//   title String
+//   code  String
+// }
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  password String
+}
+
+model Box {
   id    Int    @id @default(autoincrement())
   title String
-  code  String
+  memo  String
+}
+
+model Nav {
+  id    Int    @id @default(autoincrement())
+  title String
+  memo  String
+  link  String
 }

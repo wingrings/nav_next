@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "Prisma db push && prisma generate && next build",
+    "build": "prisma init --datasource-provider sqlite && Prisma db push && prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "update:table": "Prisma db push",

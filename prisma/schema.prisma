@@ -17,20 +17,26 @@ datasource db {
 // }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  password String
+  id         Int      @id @default(autoincrement())
+  name       String
+  password   String
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
 }
 
 model Box {
-  id    Int    @id @default(autoincrement())
-  title String
-  memo  String
+  id         Int      @id @default(autoincrement())
+  title      String
+  memo       String
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
 }
 
 model Nav {
-  id    Int    @id @default(autoincrement())
-  title String
-  memo  String
-  link  String
+  id         Int      @id @default(autoincrement())
+  title      String
+  memo       String
+  link       String
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
 }

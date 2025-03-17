@@ -26,17 +26,26 @@ const columns = [
   { name: "ID", dataIndex: "id" },
   { name: "名称", dataIndex: "title" },
   { name: "描述", dataIndex: "memo" },
+  { name: "更新时间", dataIndex: "updateTime" },
+  { name: "创建时间", dataIndex: "createTime" },
   { name: "操作", dataIndex: "action" },
 ];
 export default function TableBox({ data }: { data: DataType[] }) {
   const router = useRouter();
 
   async function delBox(id: number) {
+    const res = await delDataBox(id);
+    if (!res.success) {
+      addToast({
+        description: res.message,
+        color: "danger",
+      });
+      return;
+    }
     addToast({
       description: "删除成功",
       color: "success",
     });
-    await delDataBox(id);
     router.push("/box");
   }
 

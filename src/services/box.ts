@@ -24,8 +24,12 @@ export async function addBox(formData: {title: string; memo: string}) {
   }
 }
 export async function delDataBox(id: number) {
-  await db.box.delete({
-    where: {id}
-  })
-  redirect('/box')
+  try {
+    const newBox = await db.box.delete({
+      where: {id}
+    })
+    return newBox
+  } catch (error) {
+    return error
+  }
 }

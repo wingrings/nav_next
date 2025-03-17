@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 import {
   Button,
@@ -8,6 +9,8 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  addToast,
+  ToastProvider,
 } from "@heroui/react";
 
 import { delDataBox } from "@/services/box";
@@ -26,8 +29,15 @@ const columns = [
   { name: "操作", dataIndex: "action" },
 ];
 export default function TableBox({ data }: { data: DataType[] }) {
+  const router = useRouter();
+
   async function delBox(id: number) {
+    addToast({
+      description: "删除成功",
+      color: "success",
+    });
     await delDataBox(id);
+    router.push("/box");
   }
 
   function renderCell(item: DataType, columnKey: React.Key) {
@@ -50,23 +60,26 @@ export default function TableBox({ data }: { data: DataType[] }) {
   }
 
   return (
-    <Table aria-label="Example table with custom cells">
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn key={column.dataIndex} align={"center"}>
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody items={data}>
-        {(item: any) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <ToastProvider placement="top-center" toastOffset={60} />
+      <Table aria-label="Example table with custom cells">
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn key={column.dataIndex} align={"center"}>
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody items={data}>
+          {(item: any) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 }

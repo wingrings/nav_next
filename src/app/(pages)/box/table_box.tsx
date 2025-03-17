@@ -79,7 +79,7 @@ export default function TableBox({ data }: { data: DataType[] }) {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={data}>
+        <TableBody emptyContent={"暂无数据"} items={data}>
           {(item: any) => (
             <TableRow key={item.id}>
               {(columnKey) => (

@@ -10,7 +10,7 @@ export async function getBoxList() {
 
 
 
-export async function addBox(formData: {title: string; memo: string}, fn: () => void) {
+export async function addBox(formData: {title: string; memo: string}) {
   try {
     const newBox = await db.box.create({
       data: {
@@ -21,9 +21,6 @@ export async function addBox(formData: {title: string; memo: string}, fn: () => 
     return newBox
   } catch (error) {
     return error
-  } finally {
-    fn()
-    redirect('/box'); // 确保无论如何都会重定向
   }
 }
 export async function delDataBox(id: number) {

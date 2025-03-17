@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Modal, Form, Input, message } from "antd";
+import { Modal, Form, Input } from "antd";
+import { addToast, ToastProvider, Button } from "@heroui/react";
 import { addBox } from "@/services/box";
+import { useRouter } from "next/navigation";
 
 type FieldType = {
   title?: string;
@@ -9,9 +11,9 @@ type FieldType = {
 };
 
 export default function Add() {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [messageApi] = message.useMessage();
 
   const showModal = () => {
     form.setFieldsValue({});
@@ -21,13 +23,14 @@ export default function Add() {
   const handleOk = async () => {
     const formData = form.getFieldsValue();
     console.log(formData, "formData");
-    await addBox(formData, () => {
-      messageApi.open({
-        type: "success",
-        content: "成功",
-      });
-      setIsModalOpen(false);
+    await addBox(formData);
+    addToast({
+      description: "成功添加",
+      color: "success",
     });
+
+    setIsModalOpen(false);
+    router.push("/box");
   };
 
   const handleCancel = () => {
@@ -36,7 +39,8 @@ export default function Add() {
 
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
+      <ToastProvider placement="top-center" toastOffset={60} />
+      <Button color="primary" onPress={showModal}>
         添加
       </Button>
       <Modal

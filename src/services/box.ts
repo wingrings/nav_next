@@ -3,6 +3,7 @@ import { db } from "@/db";
 import {resDataHandle} from '@/services/common'
 import dayjs from "dayjs";
 import { redirect } from "next/navigation";
+import {verifyToken} from '@/tools/token'
 
 
  // 获取数据
@@ -67,7 +68,8 @@ export async function getBoxDetails(id: number): Promise<any> {
 }
 // 编辑
 export async function editBox(id: number, formData: FormData): Promise<any> {
-  console.log(id, formData.get('title'), 'id, formData');
+  const res = await verifyToken()
+  if(res !== true) return
   await db.box.update({
     where: {id},
     data: {title: formData.get('title') as string, memo: formData.get('memo') as string}

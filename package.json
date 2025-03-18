@@ -19,6 +19,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.4.2",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "next": "15.1.7",
     "next-intl": "^3.26.3",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -3,7 +3,7 @@ import React from "react";
 import { delBoxData } from "@/services/box";
 import { useRouter } from "next/navigation";
 import { Button, addToast } from "@heroui/react";
-export default function DeleteButton({ id }: { id: number }) {
+export default function DeleteButton({ id }: { id: string }) {
   const router = useRouter();
 
   async function delBox() {

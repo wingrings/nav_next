@@ -5,7 +5,7 @@ import { editBox } from "@/services/box";
 export default function Form({
   data,
 }: {
-  data: { title: string; memo: string; id: number };
+  data: { title: string; memo: string; id: string };
 }) {
   const editBoxWithId = editBox.bind(null, data.id);
   return (

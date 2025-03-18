@@ -8,7 +8,12 @@ import {verifyToken} from '@/tools/token'
 
  // 获取数据
 export async function getBoxList() {
-  const posts = await db.box.findMany();
+  const res = await verifyToken()
+  if(!res) return
+  const userId = res.id
+  // 用户id获取列表
+  const posts = await db.box.findMany({where: {userId}});
+
   return posts.map(post => ({
     ...post,
     createTime: dayjs(post.createTime).format('YYYY-MM-DD HH:mm:ss'),
@@ -26,10 +31,13 @@ export async function addBox(formData: {title: string; memo: string}) {
     // })
     // console.log(box, 'box');
     // if(box) return resDataHandle(500, 'title已存在')
+    const res = await verifyToken()
+    if(!res) return
     const newBox = await db.box.create({
       data: {
         title: formData.title,
         memo: formData.memo,
+        userId: res.id
       },
     });
     return resDataHandle(200 ,{data: newBox})
@@ -39,7 +47,7 @@ export async function addBox(formData: {title: string; memo: string}) {
 }
 
 // 删除
-export async function delBoxData(id: number): Promise<any> {
+export async function delBoxData(id: string): Promise<any> {
   try {
     // 先查询一下这个id是否存在
     const box = await db.box.findUnique({
@@ -56,7 +64,7 @@ export async function delBoxData(id: number): Promise<any> {
   }
 }
 // 获取详情
-export async function getBoxDetails(id: number): Promise<any> {
+export async function getBoxDetails(id: string): Promise<any> {
   try {
     const box = await db.box.findUnique({
       where: {id}
@@ -67,12 +75,12 @@ export async function getBoxDetails(id: number): Promise<any> {
   }
 }
 // 编辑
-export async function editBox(id: number, formData: FormData): Promise<any> {
+export async function editBox(id: string, formData: FormData): Promise<any> {
   const res = await verifyToken()
-  if(res !== true) return
+  if(!res) return
   await db.box.update({
     where: {id},
-    data: {title: formData.get('title') as string, memo: formData.get('memo') as string}
+    data: {title: formData.get('title') as string, memo: formData.get('memo') as string, userId: res.id}
   })
   redirect('/box')
 }

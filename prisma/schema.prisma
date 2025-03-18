@@ -17,26 +17,35 @@ datasource db {
 // }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   name       String
   password   String
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
+  box        Box[]
+  nav        Nav[]
 }
 
 model Box {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   title      String
   memo       String
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  nav        Nav[]
 }
 
 model Nav {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   title      String
   memo       String
   link       String
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  box        Box      @relation(fields: [boxId], references: [id])
+  boxId      String
 }

@@ -27,6 +27,7 @@ export default function HomeLayout({
   const navItems = [
     { label: "主页", href: "/home" },
     { label: "盒子", href: "/box" },
+    { label: "导航", href: "/nav" },
   ];
 
   const menuItems = [

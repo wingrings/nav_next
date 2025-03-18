@@ -20,7 +20,7 @@ const SECRET_KEY = 'your-secret-key'; // 请替换为一个安全的密钥
  * @param {string} password - 密码
  * @returns {string} - 生成的 Token
  */
-export function generateToken(data: {id: number}) {
+export function generateToken(data: {id: string, name: string}) {
   // 将账号和密码作为 Payload
   const payload = data;
   // 生成 Token，设置过期时间（例如 1 小时）
@@ -52,8 +52,11 @@ export async function verifyToken() {
   const token = cookieStore.get('token')?.value
   if(!token) redirect('/')
   const decoded: string | jwt.JwtPayload | null = parseToken(token)
-  if (typeof decoded === 'string' || !decoded) redirect('/login');
-  return true
+  console.log(decoded,typeof decoded === 'string' || !decoded, 'decoded');
+  if (typeof decoded === 'string' || !decoded) {
+    redirect('/login')
+  };
+  return {id: decoded.id, name: decoded.name}
 }
 
 

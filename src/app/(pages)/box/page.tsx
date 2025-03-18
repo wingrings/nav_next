@@ -12,7 +12,7 @@ export default async function Page() {
         <Add />
       </header>
       <main className="mt-4">
-        <TableBox data={data} />
+        <TableBox data={data || []} />
       </main>
     </div>
   );

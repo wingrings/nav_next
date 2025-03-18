@@ -1,6 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
-
+import DeleteButton from "./delete_button";
 import {
   Button,
   Table,
@@ -9,11 +8,9 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  addToast,
   ToastProvider,
+  Link,
 } from "@heroui/react";
-
-import { delDataBox } from "@/services/box";
 
 interface DataType {
   title: string;
@@ -31,24 +28,6 @@ const columns = [
   { name: "操作", dataIndex: "action" },
 ];
 export default function TableBox({ data }: { data: DataType[] }) {
-  const router = useRouter();
-
-  async function delBox(id: number) {
-    const res = await delDataBox(id);
-    if (!res.success) {
-      addToast({
-        description: res.message,
-        color: "danger",
-      });
-      return;
-    }
-    addToast({
-      description: "删除成功",
-      color: "success",
-    });
-    router.push("/box");
-  }
-
   function renderCell(item: DataType, columnKey: React.Key) {
     if (columnKey === "or") {
       return <span className="text-sm text-gray-600 ml-2">{1}</span>;
@@ -56,12 +35,12 @@ export default function TableBox({ data }: { data: DataType[] }) {
     if (columnKey === "action") {
       return (
         <div className="flex justify-center gap-2 w-full">
-          <Button size="sm" color="primary">
-            编辑
-          </Button>
-          <Button size="sm" color="danger" onPress={delBox.bind(null, item.id)}>
-            删除
-          </Button>
+          <Link href={`/box/${item.id}`}>
+            <Button size="sm" color="primary">
+              编辑
+            </Button>
+          </Link>
+          <DeleteButton id={item.id}></DeleteButton>
         </div>
       );
     }

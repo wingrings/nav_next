@@ -1,12 +1,9 @@
 import { db } from "@/db";
 import {resDataHandle, errorHandler} from '@/services/common'
 // import { redirect } from "next/navigation";
-import {verifyToken} from '@/tools/token'
 
 
 export async function getUserWithBoxAndNav(user: string) {
-  const res = await verifyToken()
-  if(!res) return
   try {
     const userData = await db.user.findUnique({
       where: {

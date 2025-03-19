@@ -19,6 +19,7 @@ interface DataType {
   title: string;
   memo: string;
   id: string;
+  boxId: string;
 }
 
 const columns = [
@@ -67,7 +68,7 @@ export default function TableBox() {
     if (columnKey === "action") {
       return (
         <div className="flex justify-center gap-2 w-full">
-          <Link href={`/box/${item.id}`}>
+          <Link href={`/nav/${item.id}`}>
             <Button size="sm" color="primary">
               编辑
             </Button>
@@ -83,7 +84,6 @@ export default function TableBox() {
 
   return (
     <>
-      {boxId}
       <Table aria-label="Example table with custom cells">
         <TableHeader columns={columns}>
           {(column) => (

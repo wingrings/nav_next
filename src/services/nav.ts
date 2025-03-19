@@ -1,8 +1,8 @@
 "use server"
 import { db } from "@/db";
-import {resDataHandle} from '@/services/common'
+import {resDataHandle, errorHandler} from '@/services/common'
 import dayjs from "dayjs";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import {verifyToken} from '@/tools/token'
 import { getBoxList } from './box'
 
@@ -27,26 +27,31 @@ export async function getNavList(boxId: string) {
 
 // 添加
 export async function addNav(formData: FormData) {
-  const res = await verifyToken()
-  if(!res) return resDataHandle(500, 'token过期')
-  const title = formData.get('title') as string
-  const boxId = formData.get('boxId') as string
-  // 先查找一下这个title是否存在
-  const nav = await db.nav.findFirst({
-    where: {title, userId: res.id, boxId}
-  })
-  if(nav) return resDataHandle(500, 'title已存在')
+  const title = formData.get('title') as string;
+  const link = formData.get('link') as string;
+  const memo = formData.get('memo') as string;
+  const boxId = formData.get('boxId') as string;
 
-  const newNav = await db.nav.create({
-    data: {
-      title: title,
-      memo: formData.get('memo') as string,
-      userId: res.id,
-      link: formData.get('link') as string,
-      boxId
-    },
-  });
-  return resDataHandle(200 ,{data: newNav})
+  if(!boxId) return resDataHandle(400, 'boxId 未传')
+  if(!title) return resDataHandle(400, 'title 未传')
+  if(!link) return resDataHandle(400, 'link 未传')
+
+  try {
+    const res = await verifyToken()
+    if(!res) return
+    const newBox = await db.nav.create({
+      data: {
+        title: title,
+        memo: memo,
+        link: link,
+        userId: res.id,
+        boxId
+      },
+    });
+    return resDataHandle(200 ,{data: newBox, message: '添加成功'})
+  } catch (error) {
+    return errorHandler(error, {text: '链接名称'})
+  }
 }
 
 // 删除
@@ -61,9 +66,9 @@ export async function delNavData(id: string): Promise<any> {
     const newNav = await db.nav.delete({
       where: {id}
     })
-    return resDataHandle(200,{data: newNav})
+    return resDataHandle(200, {data: newNav})
   } catch (error) {
-    return resDataHandle(500, {message: error})
+    return errorHandler(error)
   }
 }
 // 获取详情
@@ -72,22 +77,38 @@ export async function getNavDetails(id: string): Promise<any> {
     const nav = await db.nav.findUnique({
       where: {id}
     })
+    console.log(nav, 'nav')
     return resDataHandle(200 ,{data: nav})
   } catch (error) {
-    return resDataHandle(500, {message: error})
+    return errorHandler(error)
   }
 }
 // 编辑
 export async function editNav(id: string, formData: FormData): Promise<any> {
-  const res = await verifyToken()
-  if(!res) return
-  await db.nav.update({
-    where: {id},
-    data: {
-      title: formData.get('title') as string,
-      memo: formData.get('memo') as string,
-      userId: res.id
-    }
-  })
-  redirect('/nav')
+  const title = formData.get('title') as string;
+  const link = formData.get('link') as string;
+  const memo = formData.get('memo') as string;
+  const boxId = formData.get('boxId') as string;
+
+  if(!id) return resDataHandle(400, 'id 未传')
+  if(!boxId) return resDataHandle(400, 'boxId 未传')
+  if(!title) return resDataHandle(400, 'title 未传')
+  if(!link) return resDataHandle(400, 'link 未传')
+  try {
+    const res = await verifyToken()
+    if(!res) return
+    const newBox = await db.nav.update({
+      where: {id},
+      data: {
+        title: title,
+        link,
+        memo: memo,
+        userId: res.id,
+        boxId,
+      }
+    })
+    return resDataHandle(200 ,{data: newBox, message: '修改成功'})
+  } catch (error) {
+    return errorHandler(error, {text: '连接名称'})
+  }
 }

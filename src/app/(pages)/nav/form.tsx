@@ -1,62 +1,59 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
+  Spinner,
   Form as FormHero,
   Input,
   Button,
   Link,
-  addToast,
   Select as SelectHero,
   SelectItem,
 } from "@heroui/react";
-import { getBoxList } from "@/services/box";
+import { response } from "@/tools";
 
 import { editNav, addNav } from "@/services/nav";
 import { useRouter } from "next/navigation";
 export default function Form({
   boxId,
   data,
+  list,
 }: {
-  boxId: string;
+  boxId?: string;
   data?: { title: string; memo: string; link: string; id: string };
+  list: any[];
 }) {
-  const [animals, setAnimals] = useState<any[]>([]);
+  const [isPending, setIsPending] = useState<boolean>(false);
 
-  useEffect(() => {
-    getBoxList().then((res) => {
-      setAnimals(res || []);
-    });
-  }, []);
   const router = useRouter();
-  let action = async (formData: FormData) => {
-    const result = await addNav(formData);
+  const action = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData: FormData = new FormData(e.currentTarget);
+    if (isPending) return;
+    setIsPending(true);
+    const result = response(
+      await (!data?.id ? addNav(formData) : editNav(data.id, formData))
+    );
     if (result?.success) {
-      // 页面回退
       router.back();
-    } else {
-      addToast({
-        description: result.message,
-        color: "danger",
-      });
+      setIsPending(false);
     }
   };
-  if (data?.id) {
-    action = async (formData: FormData) => {
-      const result = await editNav(data.id, formData);
-      if (result?.success) {
-        // handle success
-      }
-    };
-  }
+
+  console.log(router, "router");
   return (
     <div className="flex justify-center py-10">
-      <FormHero action={action} className="w-full max-w-md flex flex-col gap-4">
+      <FormHero
+        onSubmit={action}
+        className="w-full max-w-md flex flex-col gap-4"
+      >
         <SelectHero
           isRequired
-          items={animals}
+          items={list}
           label="盒子"
+          name="boxId"
           selectionMode="single"
-          selectedKeys={[boxId || ""]}
+          defaultSelectedKeys={boxId ? [boxId] : []}
           placeholder="请选择盒子"
         >
           {(animal) => <SelectItem key={animal.id}>{animal.title}</SelectItem>}
@@ -92,13 +89,12 @@ export default function Form({
           type="text"
         />
         <div className="flex gap-2">
-          <Button color="primary" type="submit">
+          <Button disabled={isPending} color="primary" type="submit">
+            {isPending && <Spinner color="default" size="sm" />}
             提交
           </Button>
-          <Link href="/box">
-            <Button variant="flat" onPress={router.back.bind(null)}>
-              返回
-            </Button>
+          <Link href="/nav">
+            <Button variant="flat">返回</Button>
           </Link>
         </div>
       </FormHero>

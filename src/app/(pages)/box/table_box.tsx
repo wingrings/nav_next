@@ -19,7 +19,7 @@ interface DataType {
 
 const columns = [
   // { name: "序号", dataIndex: "or" },
-  { name: "ID", dataIndex: "id" },
+  // { name: "ID", dataIndex: "id" },
   { name: "名称", dataIndex: "title" },
   { name: "描述", dataIndex: "memo" },
   { name: "更新时间", dataIndex: "updateTime" },

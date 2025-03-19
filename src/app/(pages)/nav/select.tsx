@@ -3,7 +3,7 @@ import React from "react";
 import { Select as SelectHero, SelectItem } from "@heroui/react";
 import Button from "@/components/hero/button";
 import { useRouter } from "next/navigation";
-import { addToast } from "@heroui/react";
+// import { addToast } from "@heroui/react";
 import { useBearStore } from "@/store/nav";
 export default function Select({
   animals,
@@ -22,14 +22,14 @@ export default function Select({
   // const [boxId, setBoxId] = useState(boxIdProp);
   const router = useRouter();
   function add() {
-    if (!boxId) {
-      addToast({
-        description: "请选择盒子",
-        color: "danger",
-      });
-      return;
-    }
-    router.push(`/nav/${boxId}`);
+    // if (!boxId) {
+    //   addToast({
+    //     description: "请选择盒子",
+    //     color: "danger",
+    //   });
+    //   return;
+    // }
+    router.push(`/nav/box/${boxId}`);
   }
   return (
     <div className="flex w-full justify-between">
@@ -41,7 +41,6 @@ export default function Select({
         selectedKeys={[boxId || ""]}
         placeholder="请选择盒子"
         onChange={(e) => {
-          console.log(e.target.value, "e");
           setBoxId(e.target.value);
         }}
       >

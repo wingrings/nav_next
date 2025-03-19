@@ -1,18 +1,41 @@
 "use client";
-import React from "react";
-import { Form as FormHero, Input, Button, Link } from "@heroui/react";
+import React, { useEffect } from "react";
+import { Form as FormHero, Input, Button, Link, Spinner } from "@heroui/react";
+import { useActionState, startTransition } from "react";
 import { editBox } from "@/services/box";
+import { response } from "@/tools";
+import { useRouter } from "next/navigation";
 export default function Form({
   data,
 }: {
   data: { title: string; memo: string; id: string };
 }) {
-  const editBoxWithId = editBox.bind(null, data.id);
+  const router = useRouter();
+
+  const [state, action, isPending] = useActionState(editBox, null);
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    formData.append("id", data.id);
+    startTransition(async () => {
+      action(formData);
+    });
+  };
+  useEffect(() => {
+    if (state) {
+      const { success } = response(state);
+      if (success) {
+        router.push("/box");
+      }
+    }
+  }, [state, router]);
+
   return (
     <div className="flex justify-center py-10">
       <FormHero
-        action={editBoxWithId}
         className="w-full max-w-md flex flex-col gap-4"
+        onSubmit={onSubmit}
       >
         <Input
           isRequired
@@ -35,7 +58,8 @@ export default function Form({
           type="text"
         />
         <div className="flex gap-2">
-          <Button color="primary" type="submit">
+          <Button disabled={isPending} color="primary" type="submit">
+            {isPending && <Spinner color="default" size="sm" />}
             提交
           </Button>
           <Link href="/box">

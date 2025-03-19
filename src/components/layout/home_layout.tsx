@@ -37,7 +37,6 @@ export default function HomeLayout({
   ];
   // 获取当前路由
   const pathName = usePathname();
-  console.log(pathName, "router");
 
   return (
     <Layout>

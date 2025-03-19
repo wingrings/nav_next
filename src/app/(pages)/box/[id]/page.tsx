@@ -1,6 +1,6 @@
 import { getBoxDetails } from "@/services/box";
 import Form from "./form";
-export default async function Page({ params }: any) {
+export default async function EditPage({ params }: any) {
   const { id } = await params;
   const res = await getBoxDetails(id);
   return (

@@ -26,7 +26,7 @@ export default function Form({
     getBoxList().then((res) => {
       setAnimals(res || []);
     });
-  });
+  }, []);
   const router = useRouter();
   let action = async (formData: FormData) => {
     const result = await addNav(formData);

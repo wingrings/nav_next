@@ -18,7 +18,7 @@ datasource db {
 
 model User {
   id         String   @id @default(cuid())
-  name       String
+  name       String   @unique
   password   String
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
@@ -35,6 +35,8 @@ model Box {
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   nav        Nav[]
+
+  @@unique([userId, title])
 }
 
 model Nav {
@@ -48,4 +50,6 @@ model Nav {
   userId     String
   box        Box      @relation(fields: [boxId], references: [id])
   boxId      String
+
+  @@unique([userId, boxId, title])
 }

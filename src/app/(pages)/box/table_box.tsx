@@ -8,7 +8,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  ToastProvider,
   Link,
 } from "@heroui/react";
 
@@ -49,7 +48,6 @@ export default function TableBox({ data }: { data: DataType[] }) {
 
   return (
     <>
-      <ToastProvider placement="top-center" toastOffset={60} />
       <Table aria-label="Example table with custom cells">
         <TableHeader columns={columns}>
           {(column) => (

@@ -1,5 +1,6 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import Providers from "@/components/hero/providers";
 export default async function RootLayout({
   children,
 }: {
@@ -10,7 +11,7 @@ export default async function RootLayout({
   return (
     <>
       <NextIntlClientProvider locale={locale} messages={messages}>
-        {children}
+        <Providers>{children}</Providers>
       </NextIntlClientProvider>
     </>
   );

@@ -41,7 +41,7 @@ export function parseToken(token: string) {
     return decoded;
   } catch (error: any) {
     // 如果 Token 无效或过期，返回错误信息
-    console.error('Token 解析失败:', error?.message || error);
+    console.error('Token 解析失败:', JSON.stringify(error));
     return null;
   }
 }
@@ -52,7 +52,6 @@ export async function verifyToken() {
   const token = cookieStore.get('token')?.value
   if(!token) redirect('/')
   const decoded: string | jwt.JwtPayload | null = parseToken(token)
-  console.log(decoded,typeof decoded === 'string' || !decoded, 'decoded');
   if (typeof decoded === 'string' || !decoded) {
     redirect('/login')
   };

@@ -1,8 +1,8 @@
 "use server"
 import { db } from "@/db";
-import {resDataHandle} from '@/services/common'
+import {resDataHandle, errorHandler} from '@/services/common'
 import dayjs from "dayjs";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import {verifyToken} from '@/tools/token'
 
 
@@ -25,12 +25,6 @@ export async function getBoxList() {
 // 添加
 export async function addBox(formData: {title: string; memo: string}) {
   try {
-    // 先查找一下这个title是否存在
-    // const box = await db.box.findUnique({
-    //   where: {title: formData.title}
-    // })
-    // console.log(box, 'box');
-    // if(box) return resDataHandle(500, 'title已存在')
     const res = await verifyToken()
     if(!res) return
     const newBox = await db.box.create({
@@ -40,9 +34,9 @@ export async function addBox(formData: {title: string; memo: string}) {
         userId: res.id
       },
     });
-    return resDataHandle(200 ,{data: newBox})
+    return resDataHandle(200 ,{data: newBox, message: '添加成功'})
   } catch (error) {
-    return resDataHandle(500 ,{message: error})
+    return errorHandler(error, {text: '标题'})
   }
 }
 
@@ -75,12 +69,20 @@ export async function getBoxDetails(id: string): Promise<any> {
   }
 }
 // 编辑
-export async function editBox(id: string, formData: FormData): Promise<any> {
+export async function editBox(_prevState: any, formData: FormData): Promise<any> {
   const res = await verifyToken()
-  if(!res) return
-  await db.box.update({
-    where: {id},
-    data: {title: formData.get('title') as string, memo: formData.get('memo') as string, userId: res.id}
-  })
-  redirect('/box')
+  const id = formData.get('id') as string
+  try {
+    const newBox = await db.box.update({
+      where: {id},
+      data: {
+        title: formData.get('title') as string,
+        memo: formData.get('memo') as string,
+        userId: res.id
+      }
+    })
+    return resDataHandle(200 ,{data: newBox, message: '修改成功'})
+  } catch(error) {
+    return errorHandler(error, {text: '标题'})
+  }
 }

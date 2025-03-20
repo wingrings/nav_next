@@ -14,7 +14,7 @@ export default async function Pages({ params }: { params: any }) {
   return (
     <div
       className="bg-[#868686]
-        bg-[url('/spsc.jpeg')]
+        bg-[url('/psc.jpeg')]
         bg-repeat bg-[50%_-500px]
         bg-fixed min-h-[100vh]
         grid grid-cols-1 gap-4 

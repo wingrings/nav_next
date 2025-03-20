@@ -4,7 +4,7 @@ import {resDataHandle, errorHandler} from '@/services/common'
 import dayjs from "dayjs";
 // import { redirect } from "next/navigation";
 import {verifyToken} from '@/tools/token'
-
+// import boxData from '../../data/Box.json'
 
  // 获取数据
 export async function getBoxList() {
@@ -91,25 +91,12 @@ export async function editBox(_prevState: any, formData: FormData): Promise<any>
 
 
 export async function bulkInsertBoxTitles( ) {
-  const titles: string[] = [
-    "常用",
-    "爱康项目网址",
-    "UI框架",
-    "安装包官网",
-    "其他",
-    "工具",
-    "开发插件",
-    "服务端",
-    "博客大佬",
-    "包下载地址",
-    "娱乐",
-    "南天",
-    "爱康项目网址"
-  ]
+  const titles: any[] = []
   try {
-    const data = titles.map((title) => ({
-      title,
-      userId: 'cm8gxbg61000dfy8gpfoox3n7',
+    const data = titles.map((item) => ({
+      ...item,
+      createTime: new Date(),
+      updateTime: new Date(),
     }));
     console.log(data, 'data');
     const result = await db.box.createMany({

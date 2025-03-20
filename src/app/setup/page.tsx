@@ -2,6 +2,7 @@
 import React from "react";
 import { Form, Input, Button } from "@heroui/react";
 import { setup } from "@/services/login";
+// import { bulkInsertUserTitles } from "@/services/login";
 export default function Page() {
   return (
     <div className="flex justify-center py-10">
@@ -31,6 +32,9 @@ export default function Page() {
           </Button>
         </div>
       </Form>
+      {/* <Button className="w-full" color="primary" onPress={bulkInsertUserTitles}>
+        同步
+      </Button> */}
     </div>
   );
 }

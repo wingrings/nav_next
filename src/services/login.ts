@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { redirect } from "next/navigation";
 import {resDataHandle} from '@/services/common'
 import { generateToken } from '@/tools/token'
+// import user from '../../data/User'
 
 
 export async function login(formData: FormData): Promise<any> {
@@ -43,6 +44,26 @@ export async function setup(formData: FormData): Promise<any> {
       password,
     },
   });
+}
+
+
+
+export async function bulkInsertUserTitles() {
+  try {
+    const data: any = []
+    console.log(data, 'data');
+    // return
+    const result = await db.user.createMany({
+      data,
+      skipDuplicates: true,
+    });
+
+    console.log(`成功插入 ${result.count} 条数据`);
+    return result;
+  } catch (error) {
+    console.error('批量插入失败:', JSON.stringify(error));
+    throw error;
+  }
 }
 
 

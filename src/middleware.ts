@@ -1,10 +1,9 @@
-// import { NextResponse } from 'next/server'
-// import type { NextRequest } from 'next/server'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-// This function can be marked `async` if using `await` inside
-export function middleware() {
-  // const acceptLanguage = request.headers.get('accept-language');
-
-  // console.log(acceptLanguage);
-  // return NextResponse.redirect(new URL('/home', request.url))
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.url === '/.well-known/vercel') {
+    return res.status(200).json({ status: 'ok' });
+  }
+  // 其他逻辑
 }
+

@@ -1,6 +1,6 @@
 // import { useTranslations } from "next-intl";
 // import Box from "@/components/home/box";
-import { ScrollShadow, Avatar } from "@/components/hero";
+import { ScrollShadow, Button } from "@/components/hero";
 import { getUserWithBoxAndNav } from "@/services/user_page";
 import Link from "next/link";
 import TooltipHero from "@/components/hero/Tooltip";
@@ -18,15 +18,24 @@ export default async function Pages({ params }: { params: any }) {
   return (
     <>
       <Navbar
+        classNames={{
+          base: "bg-[#0e0e0eaa]",
+          // wrapper: "bg-[#0e0e0e3d]",
+          // brand: "bg-[#0e0e0e3d]",
+          // content: "bg-[#0e0e0e3d]",
+        }}
         menuItems={menuItems}
         name={data.name}
         rightContent={
-          <Avatar
-            size="sm"
-            isBordered
-            color="default"
-            src="https://heroui.com/images/album-cover.png"
-          />
+          <Link href="/login">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+            >
+              登 录
+            </Button>
+          </Link>
         }
       ></Navbar>
       <div

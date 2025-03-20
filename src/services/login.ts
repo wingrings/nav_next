@@ -42,6 +42,15 @@ export async function setup(formData: FormData): Promise<any> {
       password,
     },
   });
+  redirect('/login')
+}
+
+
+// 退出登录
+export async function logout() {
+  const cookieStore = await cookies()
+  cookieStore.delete('token')
+  redirect('/home')
 }
 
 

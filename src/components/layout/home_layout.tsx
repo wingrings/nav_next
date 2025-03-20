@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
+import { logout } from "@/services/login";
 // import Link from "next/link";
 import {
   Navbar as NavbarHero,
@@ -11,7 +12,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
-  // Avatar,
+  Avatar,
   Button,
 } from "@heroui/react";
 
@@ -46,32 +47,34 @@ export function Navbar({
   navItems,
   menuItems,
   rightContent,
+  classNames = {},
 }: {
   name?: string;
   navItems?: { label: string; href: string }[];
   menuItems?: { label: string; href: string }[];
   rightContent?: React.ReactNode;
+  classNames?: any;
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathName = usePathname();
 
   return (
-    <NavbarHero
-      classNames={{
-        base: "bg-[#0e0e0eaa]",
-        // wrapper: "bg-[#0e0e0e3d]",
-        // brand: "bg-[#0e0e0e3d]",
-        // content: "bg-[#0e0e0e3d]",
-      }}
-      onMenuOpenChange={setIsMenuOpen}
-    >
+    <NavbarHero classNames={{ ...classNames }} onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-white">{name || "nav"}</p>
+          <p className="font-bold text-white flex items-center gap-3">
+            <Avatar
+              size="sm"
+              isBordered
+              color="default"
+              src="https://heroui.com/images/album-cover.png"
+            />
+            {name || "nav"}
+          </p>
         </NavbarBrand>
       </NavbarContent>
 
@@ -89,15 +92,20 @@ export function Navbar({
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="/login">
-            {rightContent ? (
-              rightContent
-            ) : (
-              <Button size="sm" color="secondary">
-                登录
-              </Button>
-            )}
-          </Link>
+          {/* <Link href="/login"> */}
+          {rightContent ? (
+            rightContent
+          ) : (
+            <Button
+              variant="ghost"
+              size="sm"
+              color="secondary"
+              onPress={logout.bind(null)}
+            >
+              退出
+            </Button>
+          )}
+          {/* </Link> */}
         </NavbarItem>
         {/* <NavbarItem>
             <Button as={Link} color="primary" href="#" variant="flat">

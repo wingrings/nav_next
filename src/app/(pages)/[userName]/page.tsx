@@ -3,7 +3,6 @@
 import ScrollShadow from "@/components/hero/scrollShadow";
 import { getUserWithBoxAndNav } from "@/services/user_page";
 import Link from "next/link";
-import Navbar from "./Navbar";
 import TooltipHero from "@/components/hero/Tooltip";
 
 export default async function Pages({ params }: { params: any }) {
@@ -19,8 +18,8 @@ export default async function Pages({ params }: { params: any }) {
         bg-fixed min-h-[100vh]
         grid grid-cols-1 gap-4 
         sm:grid-cols-1 md:grid-cols-2
-        lg:grid-cols-3 xl:grid-cols-4 
-        p-5"
+        lg:grid-cols-3 2xl:grid-cols-4 
+        px-2 py-4"
     >
       {/* userName: {userName} */}
       {data?.box?.map((item) => {
@@ -33,9 +32,7 @@ export default async function Pages({ params }: { params: any }) {
 function Card({ item }: { item: any }) {
   return (
     <div className="text-[#f7f7f7] rounded-medium overflow-hidden bg-[#0e0e0e3d] pt-1 pb-2 h-[24vh]">
-      <Navbar classNames={{ navbar: "h-5 z-10" }}>
-        <span className="text-center font-bold">{item.title}</span>
-      </Navbar>
+      <div className="text-center font-bold">{item.title}</div>
       <ScrollShadow className="h-[calc(100%-20px)]" size={10}>
         <main className="grid grid-cols-3 gap-2 px-2">
           {item?.nav?.map((item: any) => {

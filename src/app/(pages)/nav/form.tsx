@@ -40,7 +40,6 @@ export default function Form({
     }
   };
 
-  console.log(router, "router");
   return (
     <div className="flex justify-center py-10">
       <FormHero

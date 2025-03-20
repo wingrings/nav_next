@@ -29,14 +29,12 @@ export async function login(formData: FormData): Promise<any> {
   redirect('/box')
 }
 export async function setup(formData: FormData): Promise<any> {
-  console.log(formData, 'formData');
   const name = formData.get('name') as string
   const password = formData.get('password') as string
   // 先查询一下有没有这个用户
   const user = await db.user.findFirst({
     where: {name}
   })
-  console.log(user, 'user');
   if(user) return resDataHandle(500, '用户已存在')
   await db.user.create({
     data: {

@@ -1,31 +1,50 @@
 // import { useTranslations } from "next-intl";
 // import Box from "@/components/home/box";
-import ScrollShadow from "@/components/hero/scrollShadow";
+import { ScrollShadow, Avatar } from "@/components/hero";
 import { getUserWithBoxAndNav } from "@/services/user_page";
 import Link from "next/link";
 import TooltipHero from "@/components/hero/Tooltip";
+import { Navbar } from "@/components/layout/home_layout";
 
+const menuItems = [
+  { label: "登录", href: "/login" },
+  { label: "主页", href: "/home" },
+  { label: "注册", href: "/setup" },
+];
 export default async function Pages({ params }: { params: any }) {
   // const t = useTranslations("HomePage");
   const { userName } = await params;
   const { data } = await getUserWithBoxAndNav(userName);
-  console.log(data, "data");
   return (
-    <div
-      className="bg-[#868686]
-        bg-[url('/psc.jpeg')]
+    <>
+      <Navbar
+        menuItems={menuItems}
+        name={data.name}
+        rightContent={
+          <Avatar
+            size="sm"
+            isBordered
+            color="default"
+            src="https://heroui.com/images/album-cover.png"
+          />
+        }
+      ></Navbar>
+      <div
+        className="bg-[#868686]
+        bg-[url('/ps是c.jpeg')]
         bg-repeat bg-[50%_-500px]
         bg-fixed min-h-[100vh]
         grid grid-cols-1 gap-4 
         sm:grid-cols-1 md:grid-cols-2
         lg:grid-cols-3 2xl:grid-cols-4 
         px-2 py-4"
-    >
-      {/* userName: {userName} */}
-      {data?.box?.map((item) => {
-        return <Card key={item.title} item={item} />;
-      })}
-    </div>
+      >
+        {/* userName: {userName} */}
+        {data?.box?.map((item) => {
+          return <Card key={item.title} item={item} />;
+        })}
+      </div>
+    </>
   );
 }
 

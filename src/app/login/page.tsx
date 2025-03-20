@@ -30,7 +30,7 @@ export default function Page() {
         />
         <div className="flex gap-2 w-full">
           <Button className="w-full" color="primary" type="submit">
-            登陆
+            登录
           </Button>
           {/* <Button type="submit" variant="flat">
             注册

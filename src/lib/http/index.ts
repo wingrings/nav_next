@@ -23,7 +23,6 @@ const axios: any = Axios.create({
 // 前置请求拦截器（发起请求之前的拦截）
 axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    console.log(config, 'config');
     return {
       ...config,
       timeout: TIMEOUT.UPLOADING,

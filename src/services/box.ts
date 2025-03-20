@@ -86,3 +86,41 @@ export async function editBox(_prevState: any, formData: FormData): Promise<any>
     return errorHandler(error, {text: '标题'})
   }
 }
+
+
+
+
+export async function bulkInsertBoxTitles( ) {
+  const titles: string[] = [
+    "常用",
+    "爱康项目网址",
+    "UI框架",
+    "安装包官网",
+    "其他",
+    "工具",
+    "开发插件",
+    "服务端",
+    "博客大佬",
+    "包下载地址",
+    "娱乐",
+    "南天",
+    "爱康项目网址"
+  ]
+  try {
+    const data = titles.map((title) => ({
+      title,
+      userId: 'cm8gxbg61000dfy8gpfoox3n7',
+    }));
+    console.log(data, 'data');
+    const result = await db.box.createMany({
+      data,
+      skipDuplicates: true,
+    });
+
+    console.log(`成功插入 ${result.count} 条数据`);
+    return result;
+  } catch (error) {
+    console.error('批量插入失败:', JSON.stringify(error));
+    throw error;
+  }
+}

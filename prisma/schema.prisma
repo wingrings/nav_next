@@ -29,12 +29,14 @@ model User {
 model Box {
   id         String   @id @default(cuid())
   title      String
-  memo       String
+  sortOrder  Int      @default(autoincrement())
+  memo       String   @default("")
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   nav        Nav[]
+  password   String?
 
   @@unique([userId, title])
 }
@@ -42,7 +44,8 @@ model Box {
 model Nav {
   id         String   @id @default(cuid())
   title      String
-  memo       String
+  sortOrder  Int      @default(autoincrement())
+  memo       String   @default("")
   link       String
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
@@ -50,6 +53,7 @@ model Nav {
   userId     String
   box        Box      @relation(fields: [boxId], references: [id])
   boxId      String
+  password   String?
 
   @@unique([userId, boxId, title])
 }

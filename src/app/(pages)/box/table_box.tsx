@@ -10,11 +10,13 @@ import {
   TableCell,
   Link,
 } from "@heroui/react";
+// import { bulkInsertBoxTitles } from "@/services/box";
 
 interface DataType {
   title: string;
   memo: string;
   id: string;
+  sortOrder?: number;
 }
 
 const columns = [
@@ -22,6 +24,7 @@ const columns = [
   // { name: "ID", dataIndex: "id" },
   { name: "名称", dataIndex: "title" },
   { name: "描述", dataIndex: "memo" },
+  { name: "顺序", dataIndex: "sortOrder" },
   { name: "更新时间", dataIndex: "updateTime" },
   { name: "创建时间", dataIndex: "createTime" },
   { name: "操作", dataIndex: "action" },
@@ -48,6 +51,7 @@ export default function TableBox({ data }: { data: DataType[] }) {
 
   return (
     <>
+      {/* <Button onPress={bulkInsertBoxTitles}>批量添加</Button> */}
       <Table aria-label="Example table with custom cells">
         <TableHeader columns={columns}>
           {(column) => (

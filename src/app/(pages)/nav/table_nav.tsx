@@ -14,7 +14,7 @@ import { delNavData } from "@/services/nav";
 import { useBearStore } from "@/store/nav";
 import { useState, useEffect } from "react";
 import { getNavList } from "@/services/nav";
-
+import { bulkInsertNavTitles } from "@/services/nav";
 interface DataType {
   title: string;
   memo: string;
@@ -84,6 +84,8 @@ export default function TableBox() {
 
   return (
     <>
+      {boxId}
+      <Button onPress={bulkInsertNavTitles.bind(null, boxId)}>批量添加</Button>
       <Table aria-label="Example table with custom cells">
         <TableHeader columns={columns}>
           {(column) => (

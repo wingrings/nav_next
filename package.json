@@ -8,8 +8,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "update:table": "Prisma db push",
-    "generate": "prisma generate"
+    "generate": "Prisma db push && prisma generate"
   },
   "dependencies": {
     "@heroui/react": "^2.7.5",

@@ -5,6 +5,14 @@ import { getUserWithBoxAndNav } from "@/services/user_page";
 import Link from "next/link";
 import TooltipHero from "@/components/hero/Tooltip";
 import { Navbar } from "@/components/layout/home_layout";
+import { getTokenMsg } from "@/services/login";
+import LogoutButton from "./logout_button";
+
+const navItems = [
+  { label: "主页", href: "/home" },
+  { label: "盒子", href: "/box" },
+  { label: "链接", href: "/nav" },
+];
 
 const menuItems = [
   { label: "登录", href: "/login" },
@@ -15,27 +23,31 @@ export default async function Pages({ params }: { params: any }) {
   // const t = useTranslations("HomePage");
   const { userName } = await params;
   const { data } = await getUserWithBoxAndNav(userName);
+  const tokenMsg = await getTokenMsg();
   return (
     <>
       <Navbar
+        avatar={{ color: "danger" }}
         classNames={{
           base: "bg-[#0e0e0eaa]",
-          // wrapper: "bg-[#0e0e0e3d]",
-          // brand: "bg-[#0e0e0e3d]",
-          // content: "bg-[#0e0e0e3d]",
         }}
         menuItems={menuItems}
-        name={data.name}
+        navItems={tokenMsg ? navItems : []}
+        name={data?.name}
         rightContent={
-          <Link href="/login">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
-            >
-              登 录
-            </Button>
-          </Link>
+          !tokenMsg ? (
+            <Link href={`/login?redirect=/${userName}`}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+              >
+                登 录
+              </Button>
+            </Link>
+          ) : (
+            <LogoutButton></LogoutButton>
+          )
         }
       ></Navbar>
       <div

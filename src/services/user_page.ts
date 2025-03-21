@@ -56,3 +56,19 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
     return errorHandler(error) as {data: dataType}
   }
 }
+
+
+
+export async function getUserMsgByName(name: string): Promise<any> {
+  try{
+    const userData = await db.user.findUnique({
+      where: {name},
+      select: {
+        name: true,
+      }
+    })
+    return resDataHandle(200, {data:userData}) as {data: {name: string}}
+  } catch(error) {
+    return errorHandler(error) as {data: {name: string}}
+  }
+}

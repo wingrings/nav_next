@@ -3,11 +3,13 @@ import { cookies } from 'next/headers';
 import { db } from "@/db";
 import { redirect } from "next/navigation";
 import {resDataHandle} from '@/services/common'
-import { generateToken } from '@/tools/token'
+import { generateToken, parseToken } from '@/tools/token'
 // import user from '../../data/User'
+import { headers } from 'next/headers'
 
 
 export async function login(formData: FormData): Promise<any> {
+  // 获取当前页面的 URL
   const name = formData.get('name') as string
   const password = formData.get('password') as string
   const user = await db.user.findFirst({
@@ -26,7 +28,14 @@ export async function login(formData: FormData): Promise<any> {
   }else {
     return resDataHandle(500, '密码错误')
   }
-  redirect('/box')
+
+  // 获取当前页面的 URL
+  const headersList = await headers();
+  const url = headersList.get('referer'); // 获取来源 URL
+  // 解析查询参数
+  const searchParams = new URL(url!).searchParams;
+  const redirectValue = searchParams.get('redirect'); // 获取具体的查询参数
+  redirect(redirectValue ?? '/home')
 }
 export async function setup(formData: FormData): Promise<any> {
   const name = formData.get('name') as string
@@ -47,10 +56,26 @@ export async function setup(formData: FormData): Promise<any> {
 
 
 // 退出登录
-export async function logout() {
+export async function logout(): Promise<any> {
+  return new Promise(async (resolve) => {
+    const cookieStore = await cookies()
+    cookieStore.delete('token')
+    resolve(true)
+    redirect('/home')
+  })
+}
+
+type tokenParseType = null | Record<string, any>
+// 获取token
+export async function getTokenMsg(): Promise<tokenParseType> {
   const cookieStore = await cookies()
-  cookieStore.delete('token')
-  redirect('/home')
+  const token = cookieStore.get('token')?.value
+  if(!token) return null
+  const decoded: tokenParseType = parseToken(token) as tokenParseType
+  return decoded ? {
+    id: decoded.id,
+    name: decoded.name
+  } : null
 }
 
 

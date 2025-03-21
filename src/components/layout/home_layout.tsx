@@ -1,7 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { logout } from "@/services/login";
+import { clsx } from "clsx";
+import { getTokenMsg } from "@/services/login";
 // import Link from "next/link";
 import {
   Navbar as NavbarHero,
@@ -16,27 +18,59 @@ import {
   Button,
 } from "@heroui/react";
 
+const navItems = [
+  { label: "主页", href: "/home" },
+  { label: "盒子", href: "/box" },
+  { label: "链接", href: "/nav" },
+];
+
+const menuItems = [
+  { label: "主页", href: "/home" },
+  { label: "盒子", href: "/box" },
+  { label: "导航链接", href: "/nav" },
+  { label: "退出", href: "logout" },
+];
 export default function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const navItems = [
-    { label: "主页", href: "/home" },
-    { label: "盒子", href: "/box" },
-    { label: "导航", href: "/nav" },
-  ];
-
-  const menuItems = [
-    { label: "主页", href: "/home" },
-    { label: "盒子", href: "/box" },
-    { label: "退出", href: "logout" },
-  ];
+  const [tokenMsg, setTokenMsg] = useState<Record<string, any> | null>(null);
+  useLayoutEffect(() => {
+    getTokenMsg().then((value) => {
+      setTokenMsg(value);
+    });
+  }, []);
   // 获取当前路由
-
+  async function handleLogout() {
+    await logout();
+    const value = await getTokenMsg();
+    setTokenMsg(value);
+  }
   return (
     <>
-      <Navbar navItems={navItems} menuItems={menuItems}></Navbar>
+      <Navbar
+        navItems={tokenMsg === null ? [] : navItems}
+        menuItems={menuItems}
+        name={tokenMsg?.name}
+        rightContent={
+          tokenMsg === null ? (
+            <Link href="/login">
+              <Button size="sm" className="btn-pink bg-white">
+                登 录
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              size="sm"
+              className="btn-pink bg-white"
+              onPress={handleLogout}
+            >
+              退 出
+            </Button>
+          )
+        }
+      ></Navbar>
       <div className="min-h-screen border bg-white">{children}</div>
     </>
   );
@@ -48,12 +82,14 @@ export function Navbar({
   menuItems,
   rightContent,
   classNames = {},
+  avatar,
 }: {
   name?: string;
   navItems?: { label: string; href: string }[];
   menuItems?: { label: string; href: string }[];
   rightContent?: React.ReactNode;
   classNames?: any;
+  avatar?: any;
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathName = usePathname();
@@ -66,15 +102,20 @@ export function Navbar({
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-white flex items-center gap-3">
-            <Avatar
-              size="sm"
-              isBordered
-              color="default"
-              src="https://heroui.com/images/album-cover.png"
-            />
-            {name || "nav"}
-          </p>
+          <Link href={name ? `/${name}` : "/home"}>
+            <p className="font-bold flex items-center gap-3 text-pink-500">
+              <Avatar
+                {...{
+                  size: "sm",
+                  isBordered: true,
+                  color: "default",
+                  src: "https://heroui.com/images/album-cover.png",
+                  ...avatar,
+                }}
+              />
+              {name}
+            </p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
@@ -82,7 +123,9 @@ export function Navbar({
         {navItems?.map((item) => (
           <NavbarItem key={item.href}>
             <Link
-              color={pathName === item.href ? "secondary" : "foreground"}
+              className={clsx(
+                pathName === item.href ? "text-pink-500" : "text-[#a3a3a3]"
+              )}
               href={item.href}
             >
               {item.label}
@@ -91,32 +134,12 @@ export function Navbar({
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          {/* <Link href="/login"> */}
-          {rightContent ? (
-            rightContent
-          ) : (
-            <Button
-              variant="ghost"
-              size="sm"
-              color="secondary"
-              onPress={logout.bind(null)}
-            >
-              退出
-            </Button>
-          )}
-          {/* </Link> */}
-        </NavbarItem>
-        {/* <NavbarItem>
-            <Button as={Link} color="primary" href="#" variant="flat">
-              Sign Up
-            </Button>
-          </NavbarItem> */}
+        <NavbarItem className="hidden lg:flex">{rightContent}</NavbarItem>
       </NavbarContent>
       <NavbarMenu>
         {menuItems?.map((item, index) => (
           <NavbarMenuItem key={`${item.href}-${index}`}>
-            <Link className="w-full text-slate-300" href={item.href} size="lg">
+            <Link className="w-full text-white" href={item.href} size="lg">
               {item.label}
             </Link>
           </NavbarMenuItem>

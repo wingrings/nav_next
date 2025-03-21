@@ -11,7 +11,6 @@ import { getBoxList } from './box'
 // import navData from '../../data/Nav.json'
 
 
-
  // 获取数据
 export async function getNavList(boxId: string) {
   const res = await verifyToken()
@@ -19,7 +18,12 @@ export async function getNavList(boxId: string) {
   const userId = res.id
   // 用户id获取列表
   const whereData = boxId ? {userId,boxId} : {userId}
-  const posts = await db.nav.findMany({where: whereData});
+  const posts = await db.nav.findMany({
+    where: whereData,
+    orderBy: {
+      sortOrder: 'asc',
+    }
+  });
   const boxList = await getBoxList()
   return posts.map(post => ({
     ...post,
@@ -84,7 +88,6 @@ export async function getNavDetails(id: string): Promise<any> {
     const nav = await db.nav.findUnique({
       where: {id}
     })
-    console.log(nav, 'nav')
     return resDataHandle(200 ,{data: nav})
   } catch (error) {
     return errorHandler(error)

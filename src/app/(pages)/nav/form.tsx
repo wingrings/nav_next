@@ -65,15 +65,7 @@ export default function Form({
         >
           {(animal) => <SelectItem key={animal.id}>{animal.title}</SelectItem>}
         </SelectHero>
-        <Input
-          errorMessage="Please enter a valid 顺序"
-          label="顺序"
-          labelPlacement="outside"
-          defaultValue={data?.sortOrder.toString()}
-          name="sortOrder"
-          placeholder="输入你的顺序"
-          type="number"
-        />
+
         <Input
           isRequired
           errorMessage="Please enter a valid 名称"
@@ -83,6 +75,15 @@ export default function Form({
           name="title"
           placeholder="输入你的名称"
           type="text"
+        />
+        <Input
+          errorMessage="Please enter a valid 顺序"
+          label="顺序"
+          labelPlacement="outside"
+          defaultValue={data?.sortOrder.toString()}
+          name="sortOrder"
+          placeholder="输入你的顺序"
+          type="number"
         />
         <Input
           isRequired

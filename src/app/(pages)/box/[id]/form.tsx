@@ -65,7 +65,7 @@ export default function Form({
           label="顺序"
           labelPlacement="outside"
           defaultValue={data?.sortOrder?.toString()}
-          name="title"
+          name="sortOrder"
           placeholder="输入你的顺序"
           type="number"
         />

@@ -32,6 +32,7 @@ export async function addBox(_prevState: any, formData: FormData): Promise<any> 
   const title = formData.get('title') as string
   const memo = formData.get('memo') as string
   const sortOrder = formData.get('sortOrder') as string
+  console.log(sortOrder, 'sortOrder>>>>>')
   try {
     const res = await verifyToken()
     if(!res) return

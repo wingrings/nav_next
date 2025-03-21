@@ -31,7 +31,7 @@ export default async function Pages({ params }: { params: any }) {
         classNames={{
           base: "bg-[#0e0e0eaa]",
         }}
-        menuItems={menuItems}
+        menuItems={tokenMsg ? navItems : menuItems}
         navItems={tokenMsg ? navItems : []}
         name={data?.name}
         rightContent={
@@ -87,15 +87,22 @@ function Card({ item }: { item: any }) {
 function NavList({ item }: { item: any }) {
   const text = <span className="truncate">{item.title}</span>;
   const content = (
-    <div>
-      <div className="truncate">{item.title}</div>
-      <div className="truncate">{item.memo}</div>
+    // 自动换行
+    <div className="max-w-[50vw]">
+      <div className="break-words">{item.title}</div>
+      <div className="break-words">{item.memo}</div>
     </div>
   );
   return (
     <Link target="_blank" href={item.link} className="text-sm">
       <div className="h-8 flex items-center justify-center">
-        {item.memo ? <TooltipHero content={content}>{text}</TooltipHero> : text}
+        {item.memo ? (
+          <TooltipHero size="sm" content={content} showArrow={true}>
+            <span className="truncate">{text}</span>
+          </TooltipHero>
+        ) : (
+          text
+        )}
       </div>
     </Link>
   );

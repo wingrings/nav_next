@@ -2,42 +2,51 @@
 import { cookies } from 'next/headers';
 import { db } from "@/db";
 import { redirect } from "next/navigation";
-import {resDataHandle} from '@/services/common'
+import {resDataHandle, errorHandler} from '@/services/common'
 import { generateToken, parseToken } from '@/tools/token'
 // import user from '../../data/User'
 import { headers } from 'next/headers'
+import { console } from 'inspector';
 
 
-export async function login(formData: FormData): Promise<any> {
-  // 获取当前页面的 URL
-  const name = formData.get('name') as string
-  const password = formData.get('password') as string
-  const user = await db.user.findFirst({
-    where: {name}
-  })
-  if(user?.password === password) {
-    const token =  generateToken(user)
-    const cookieStore = await cookies()
-    cookieStore.set('token', token, {
-      maxAge: 60 * 60 * 24, // 1 天
-      path: '/', // Cookie 的有效路径
-      httpOnly: true, // 仅限 HTTP 访问
-      // secure: process.env.NODE_ENV === 'production', // 仅在 HTTPS 下传输
-      sameSite: 'strict', // 防止跨站请求伪造
-    });
-  }else {
-    return resDataHandle(500, '密码错误')
-  }
-
-  // 获取当前页面的 URL
-  const headersList = await headers();
-  const url = headersList.get('referer'); // 获取来源 URL
-  // 解析查询参数
-  const searchParams = new URL(url!).searchParams;
-  const redirectValue = searchParams.get('redirect'); // 获取具体的查询参数
-  redirect(redirectValue ?? '/home')
+export async function loginHandle(_prevState: any, formData: FormData): Promise<any> {
+    // 获取当前页面的 URL
+    const name = formData.get('name') as string
+    const password = formData.get('password') as string
+    try {
+      const user = await db.user.findFirst({
+        where: {name}
+      })
+      if(!user) { 
+        return (resDataHandle(500, '账号未注册'));
+      }
+      if(user?.password === password) {
+        const token =  generateToken(user)
+        const cookieStore = await cookies()
+        cookieStore.set('token', token, {
+          maxAge: 60 * 60 * 24, // 1 天
+          path: '/', // Cookie 的有效路径
+          httpOnly: true, // 仅限 HTTP 访问
+          // secure: process.env.NODE_ENV === 'production', // 仅在 HTTPS 下传输
+          sameSite: 'strict', // 防止跨站请求伪造
+        });
+      }else {
+        return (resDataHandle(500, '密码错误'))
+      }
+    } catch(error) {
+      return (errorHandler(error))
+    }
+    // 获取当前页面的 URL
+    const headersList = await headers();
+    const url = headersList.get('referer'); // 获取来源 URL
+    // 解析查询参数
+    const searchParams = new URL(url!).searchParams;
+    const redirectValue = searchParams.get('redirect'); // 获取具体的查询参数
+    redirect(redirectValue ?? '/home')
 }
-export async function setup(formData: FormData): Promise<any> {
+
+// 注册
+export async function setup(_prevState: any, formData: FormData): Promise<any> {
   const name = formData.get('name') as string
   const password = formData.get('password') as string
   // 先查询一下有没有这个用户

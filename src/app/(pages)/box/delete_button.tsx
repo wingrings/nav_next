@@ -2,7 +2,8 @@
 import React from "react";
 import { delBoxData } from "@/services/box";
 import { useRouter } from "next/navigation";
-import { Button, addToast } from "@heroui/react";
+import { addToast } from "@heroui/react";
+import { ButtonPinkBorder, PopConfirm } from "@/components/hero";
 export default function DeleteButton({ id }: { id: string }) {
   const router = useRouter();
 
@@ -22,8 +23,8 @@ export default function DeleteButton({ id }: { id: string }) {
     router.push("/box");
   }
   return (
-    <Button size="sm" color="danger" onPress={delBox}>
-      删除
-    </Button>
+    <PopConfirm onConfirm={delBox}>
+      <ButtonPinkBorder>删除</ButtonPinkBorder>
+    </PopConfirm>
   );
 }

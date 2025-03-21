@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Select as SelectHero, SelectItem } from "@heroui/react";
-import Button from "@/components/hero/button";
+import { ButtonNice } from "@/components/hero";
 import { useRouter } from "next/navigation";
 // import { addToast } from "@heroui/react";
 import { useBearStore } from "@/store/nav";
@@ -32,7 +32,7 @@ export default function Select({
     router.push(`/nav/box/${boxId}`);
   }
   return (
-    <div className="flex w-full justify-between">
+    <div className="flex w-full items-center justify-between">
       <SelectHero
         className="w-[500px]"
         items={animals}
@@ -46,7 +46,7 @@ export default function Select({
       >
         {(animal) => <SelectItem key={animal.id}>{animal.title}</SelectItem>}
       </SelectHero>
-      <Button onPress={add}>添加</Button>
+      <ButtonNice onPress={add}>添 加</ButtonNice>
     </div>
   );
 }

@@ -11,7 +11,6 @@ export function response(
   val?: responseType | (() => responseType),
   {success, warning}: responseHandelType = { success: undefined, warning: undefined }
 ): responseType{
-  console.log(val, 'val>>>')
   let data = val
   if(typeof val === 'function') {
     data = val()

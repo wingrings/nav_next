@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from "next/navigation";
 // import {sessionStore} from './session'
 
@@ -41,7 +41,7 @@ export function parseToken(token: string) {
     return decoded;
   } catch (error: any) {
     // 如果 Token 无效或过期，返回错误信息
-    console.error('Token 解析失败:', JSON.stringify(error));
+    // console.error('Token 解析失败:', JSON.stringify(error));
     return null;
   }
 }
@@ -53,9 +53,11 @@ export async function verifyToken() {
   if(!token) redirect('/')
   const decoded: string | jwt.JwtPayload | null = parseToken(token)
   if (typeof decoded === 'string' || !decoded) {
-    redirect('/login')
+    const headersList = await headers();
+    const url = headersList.get('referer'); // 获取来源 URL
+    const params = new URL(url ?? '');
+    redirect( params.pathname ? `/login?redirect=${params.pathname}`: '/login')
   };
   return {id: decoded.id, name: decoded.name}
 }
-
 

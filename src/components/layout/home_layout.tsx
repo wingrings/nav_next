@@ -17,7 +17,7 @@ import {
   Avatar,
   Button,
 } from "@heroui/react";
-
+import { ButtonPink } from "@/components/hero";
 const navItems = [
   { label: "主页", href: "/home" },
   { label: "盒子", href: "/box" },
@@ -28,7 +28,6 @@ const menuItems = [
   { label: "主页", href: "/home" },
   { label: "盒子", href: "/box" },
   { label: "导航链接", href: "/nav" },
-  { label: "退出", href: "logout" },
 ];
 export default function HomeLayout({
   children,
@@ -55,11 +54,16 @@ export default function HomeLayout({
         name={tokenMsg?.name}
         rightContent={
           tokenMsg === null ? (
-            <Link href="/login">
-              <Button size="sm" className="btn-pink bg-white">
-                登 录
-              </Button>
-            </Link>
+            <div className="flex gap-4">
+              <Link href="/login">
+                <ButtonPink>登 录</ButtonPink>
+              </Link>
+              <Link href="/setup">
+                <Button size="sm" className="btn-pink bg-white">
+                  注 册
+                </Button>
+              </Link>
+            </div>
           ) : (
             <Button
               size="sm"

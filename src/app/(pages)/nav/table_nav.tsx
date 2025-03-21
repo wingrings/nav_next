@@ -1,6 +1,5 @@
 "use client";
 import {
-  Button,
   Table,
   TableHeader,
   TableColumn,
@@ -10,10 +9,12 @@ import {
   Link,
   addToast,
 } from "@heroui/react";
+import { ButtonPink, ButtonPinkBorder, PopConfirm } from "@/components/hero";
 import { delNavData } from "@/services/nav";
 import { useBearStore } from "@/store/nav";
 import { useState, useEffect } from "react";
 import { getNavList } from "@/services/nav";
+import clsx from "clsx";
 // import { bulkInsertNavTitles } from "@/services/nav";
 interface DataType {
   title: string;
@@ -25,11 +26,12 @@ interface DataType {
 const columns = [
   // { name: "序号", dataIndex: "or" },
   { name: "名称", dataIndex: "title" },
-  { name: "描述", dataIndex: "memo" },
-  { name: "连接", dataIndex: "link" },
+  { name: "链接", dataIndex: "link" },
+  { name: "顺序", dataIndex: "sortOrder" },
   { name: "盒子", dataIndex: "boxName" },
-  { name: "更新时间", dataIndex: "updateTime" },
-  { name: "创建时间", dataIndex: "createTime" },
+  { name: "描述", dataIndex: "memo" },
+  // { name: "更新时间", dataIndex: "updateTime" },
+  // { name: "创建时间", dataIndex: "createTime" },
   { name: "操作", dataIndex: "action" },
 ];
 export default function TableBox() {
@@ -69,13 +71,11 @@ export default function TableBox() {
       return (
         <div className="flex justify-center gap-2 w-full">
           <Link href={`/nav/${item.id}`}>
-            <Button size="sm" color="primary">
-              编辑
-            </Button>
+            <ButtonPink>编 辑</ButtonPink>
           </Link>
-          <Button size="sm" color="danger" onPress={delBox.bind(null, item.id)}>
-            删除
-          </Button>
+          <PopConfirm onConfirm={delBox.bind(null, item.id)}>
+            <ButtonPinkBorder>删 除</ButtonPinkBorder>
+          </PopConfirm>
         </div>
       );
     }
@@ -98,7 +98,11 @@ export default function TableBox() {
           {(item: any) => (
             <TableRow key={item.id}>
               {(columnKey) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
+                <TableCell>
+                  <div className={clsx("break-words", "max-w-[25vw]")}>
+                    {renderCell(item, columnKey)}
+                  </div>
+                </TableCell>
               )}
             </TableRow>
           )}

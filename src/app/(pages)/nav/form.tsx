@@ -4,12 +4,13 @@ import {
   Spinner,
   Form as FormHero,
   Input,
-  Button,
   Link,
   Select as SelectHero,
   SelectItem,
+  Textarea,
 } from "@heroui/react";
 import { response } from "@/tools";
+import { ButtonPinkBorder, ButtonPink } from "@/components/hero";
 
 import { editNav, addNav } from "@/services/nav";
 import { useRouter } from "next/navigation";
@@ -19,7 +20,13 @@ export default function Form({
   list,
 }: {
   boxId?: string;
-  data?: { title: string; memo: string; link: string; id: string };
+  data?: {
+    title: string;
+    memo: string;
+    link: string;
+    id: string;
+    sortOrder: number;
+  };
   list: any[];
 }) {
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -41,7 +48,7 @@ export default function Form({
   };
 
   return (
-    <div className="flex justify-center py-10">
+    <div className="flex justify-center py-10 px-5">
       <FormHero
         onSubmit={action}
         className="w-full max-w-md flex flex-col gap-4"
@@ -52,11 +59,21 @@ export default function Form({
           label="盒子"
           name="boxId"
           selectionMode="single"
+          labelPlacement={"outside"}
           defaultSelectedKeys={boxId ? [boxId] : []}
           placeholder="请选择盒子"
         >
           {(animal) => <SelectItem key={animal.id}>{animal.title}</SelectItem>}
         </SelectHero>
+        <Input
+          errorMessage="Please enter a valid 顺序"
+          label="顺序"
+          labelPlacement="outside"
+          defaultValue={data?.sortOrder.toString()}
+          name="sortOrder"
+          placeholder="输入你的顺序"
+          type="number"
+        />
         <Input
           isRequired
           errorMessage="Please enter a valid 名称"
@@ -72,13 +89,13 @@ export default function Form({
           errorMessage="Please enter a valid link"
           label="link"
           labelPlacement="outside"
-          defaultValue={data?.title}
+          defaultValue={data?.link}
           name="link"
           placeholder="输入你的link"
-          type="text"
+          type="url"
         />
 
-        <Input
+        <Textarea
           errorMessage="Please enter a valid 备注"
           defaultValue={data?.memo}
           label="备注"
@@ -87,13 +104,12 @@ export default function Form({
           placeholder="输入你的备注"
           type="text"
         />
-        <div className="flex gap-2">
-          <Button disabled={isPending} color="primary" type="submit">
-            {isPending && <Spinner color="default" size="sm" />}
-            提交
-          </Button>
+        <div className="flex gap-5 w-full justify-center">
+          <ButtonPink disabled={isPending} color="primary" type="submit">
+            {isPending && <Spinner color="default" size="sm" />}提 交
+          </ButtonPink>
           <Link href="/nav">
-            <Button variant="flat">返回</Button>
+            <ButtonPinkBorder variant="flat">返回</ButtonPinkBorder>
           </Link>
         </div>
       </FormHero>

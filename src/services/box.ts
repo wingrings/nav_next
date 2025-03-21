@@ -12,7 +12,12 @@ export async function getBoxList() {
   if(!res) return
   const userId = res.id
   // 用户id获取列表
-  const posts = await db.box.findMany({where: {userId}});
+  const posts = await db.box.findMany({
+    where: {userId},
+    orderBy: {
+      sortOrder: 'asc',
+    }
+  });
 
   return posts.map(post => ({
     ...post,
@@ -23,14 +28,18 @@ export async function getBoxList() {
 
 
 // 添加
-export async function addBox(formData: {title: string; memo: string}) {
+export async function addBox(_prevState: any, formData: FormData): Promise<any> {
+  const title = formData.get('title') as string
+  const memo = formData.get('memo') as string
+  const sortOrder = formData.get('sortOrder') as string
   try {
     const res = await verifyToken()
     if(!res) return
     const newBox = await db.box.create({
       data: {
-        title: formData.title,
-        memo: formData.memo,
+        title,
+        memo,
+        sortOrder: Number(sortOrder),
         userId: res.id
       },
     });
@@ -78,6 +87,7 @@ export async function editBox(_prevState: any, formData: FormData): Promise<any>
       data: {
         title: formData.get('title') as string,
         memo: formData.get('memo') as string,
+        sortOrder: Number(formData.get('sortOrder')),
         userId: res.id
       }
     })

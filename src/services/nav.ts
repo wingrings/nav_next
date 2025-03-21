@@ -36,6 +36,7 @@ export async function addNav(formData: FormData) {
   const link = formData.get('link') as string;
   const memo = formData.get('memo') as string;
   const boxId = formData.get('boxId') as string;
+  const sortOrder = formData.get('sortOrder') as string;
 
   if(!boxId) return resDataHandle(400, 'boxId 未传')
   if(!title) return resDataHandle(400, 'title 未传')
@@ -50,7 +51,8 @@ export async function addNav(formData: FormData) {
         memo: memo,
         link: link,
         userId: res.id,
-        boxId
+        boxId,
+        sortOrder: Number(sortOrder),
       },
     });
     return resDataHandle(200 ,{data: newBox, message: '添加成功'})
@@ -94,6 +96,7 @@ export async function editNav(id: string, formData: FormData): Promise<any> {
   const link = formData.get('link') as string;
   const memo = formData.get('memo') as string;
   const boxId = formData.get('boxId') as string;
+  const sortOrder = formData.get('sortOrder') as string;
 
   if(!id) return resDataHandle(400, 'id 未传')
   if(!boxId) return resDataHandle(400, 'boxId 未传')
@@ -106,6 +109,7 @@ export async function editNav(id: string, formData: FormData): Promise<any> {
       where: {id},
       data: {
         title: title,
+        sortOrder: Number(sortOrder),
         link,
         memo: memo,
         userId: res.id,

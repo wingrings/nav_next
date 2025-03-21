@@ -1,7 +1,6 @@
 "use client";
 import DeleteButton from "./delete_button";
 import {
-  Button,
   Table,
   TableHeader,
   TableColumn,
@@ -11,6 +10,7 @@ import {
   Link,
 } from "@heroui/react";
 // import { bulkInsertBoxTitles } from "@/services/box";
+import { ButtonPink } from "@/components/hero";
 
 interface DataType {
   title: string;
@@ -23,8 +23,8 @@ const columns = [
   // { name: "序号", dataIndex: "or" },
   // { name: "ID", dataIndex: "id" },
   { name: "名称", dataIndex: "title" },
-  { name: "描述", dataIndex: "memo" },
   { name: "顺序", dataIndex: "sortOrder" },
+  { name: "描述", dataIndex: "memo" },
   { name: "更新时间", dataIndex: "updateTime" },
   { name: "创建时间", dataIndex: "createTime" },
   { name: "操作", dataIndex: "action" },
@@ -38,9 +38,7 @@ export default function TableBox({ data }: { data: DataType[] }) {
       return (
         <div className="flex justify-center gap-2 w-full">
           <Link href={`/box/${item.id}`}>
-            <Button size="sm" color="primary">
-              编辑
-            </Button>
+            <ButtonPink color="danger">编辑</ButtonPink>
           </Link>
           <DeleteButton id={item.id}></DeleteButton>
         </div>

@@ -1,12 +1,12 @@
 // import { useTranslations } from "next-intl";
 // import Box from "@/components/home/box";
-import { ScrollShadow, Button } from "@/components/hero";
 import { getUserWithBoxAndNav } from "@/services/user_page";
 import Link from "next/link";
 import TooltipHero from "@/components/hero/Tooltip";
 import { Navbar } from "@/components/layout/home_layout";
 import { getTokenMsg } from "@/services/login";
 import LogoutButton from "./logout_button";
+import { ButtonNice, ScrollShadow } from "@/components/hero";
 
 const navItems = [
   { label: "主页", href: "/home" },
@@ -37,13 +37,7 @@ export default async function Pages({ params }: { params: any }) {
         rightContent={
           !tokenMsg ? (
             <Link href={`/login?redirect=/${userName}`}>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
-              >
-                登 录
-              </Button>
+              <ButtonNice variant="ghost">登 录</ButtonNice>
             </Link>
           ) : (
             <LogoutButton></LogoutButton>

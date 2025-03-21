@@ -41,7 +41,7 @@ export function parseToken(token: string) {
     return decoded;
   } catch (error: any) {
     // 如果 Token 无效或过期，返回错误信息
-    // console.error('Token 解析失败:', JSON.stringify(error));
+    console.error('Token 解析失败:', JSON.stringify(error));
     return null;
   }
 }

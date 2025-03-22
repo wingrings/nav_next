@@ -84,8 +84,8 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
             if (nav.password && nav.password.trim() !== '') {
               // 如果 nav 的 password 不为空字符串，将 title、memo、link 替换为 ****
               nav.title = '****';
-              nav.memo = '****';
-              nav.link = '****';
+              nav.memo = '隐私,相信我,不登录你跳不过去的';
+              nav.link = '';
             }
             delete nav.password; // 移除 nav 的 password 字段
             return nav;

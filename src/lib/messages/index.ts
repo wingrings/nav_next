@@ -12,7 +12,6 @@ export function addMessage(message: string) {
     messages.splice(0, messages.length - 10); // 删除前面的元素，保留最后 10 个
   }
 
-  console.log(messages, 'messages')
 
 
 

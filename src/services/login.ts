@@ -99,7 +99,6 @@ export async function getTokenMsg(): Promise<tokenParseType> {
 export async function bulkInsertUserTitles() {
   try {
     const data: any = []
-    console.log(data, 'data');
     // return
     const result = await db.user.createMany({
       data,

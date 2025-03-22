@@ -51,7 +51,6 @@ export default function Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, router]);
-  console.log(data, "data");
   return (
     <div className="flex justify-center">
       <FormHero

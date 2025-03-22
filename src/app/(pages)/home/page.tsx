@@ -4,8 +4,10 @@ import Client from "./client";
 
 export default async function Pages() {
   // const t = useTranslations("HomePage");
+
   return (
-    <div className="min-h-[100vh] grid grid-cols-3 gap-4 p-5 bg-slate-300">
+    <div className="min-h-[100vh] grid grid-cols-2 p-5 bg-[#0e0e0e3d]">
+      <div>这里是一些说明</div>
       <Client />
     </div>
   );

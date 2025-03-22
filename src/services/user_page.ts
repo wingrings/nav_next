@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import {justVerifyToken} from '@/tools/token'
 import {resDataHandle, errorHandler} from '@/services/common'
 // import { redirect } from "next/navigation";
 
@@ -23,6 +24,7 @@ interface dataType {
 }
 
 export async function getUserWithBoxAndNav(user: string): Promise<{data: dataType}> {
+  const bool = await justVerifyToken()
   try {
     const userData: any = await db.user.findUnique({
       where: {
@@ -37,13 +39,13 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
           select: {
             title: true,
             memo: true,
-            password: true,
+            password: !bool,
             nav: {
               where: {
                 isShow: 1, // 只返回 isShow 为 1 的 box
               },
               select: {
-                password: true,
+                password: !bool,
                 title: true,
                 memo: true,
                 link: true
@@ -65,6 +67,10 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
         },
       },
     });
+
+    if(bool) {
+      return resDataHandle(200, {data: userData}) as {data: dataType}
+    }
 
     // 查询后处理数据
     if (userData?.box) {

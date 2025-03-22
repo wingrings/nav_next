@@ -24,6 +24,7 @@ export default async function Pages({ params }: { params: any }) {
   const { userName } = await params;
   const { data } = await getUserWithBoxAndNav(userName);
   const tokenMsg = await getTokenMsg();
+  console.log("data", data);
   return (
     <>
       <Navbar
@@ -65,16 +66,29 @@ export default async function Pages({ params }: { params: any }) {
 }
 
 function Card({ item }: { item: any }) {
+  const navListCom = item.nav ? (
+    <main className="grid grid-cols-3 gap-2 px-2">
+      {item?.nav?.map((item: any) => {
+        return <NavList key={item.title} item={item} />;
+      })}
+    </main>
+  ) : (
+    <InputCard />
+  );
   return (
     <div className="text-[#f7f7f7] rounded-medium overflow-hidden bg-[#0e0e0e3d] pt-1 pb-2 h-[24vh]">
       <div className="text-center font-bold">{item.title}</div>
       <ScrollShadow className="h-[calc(100%-20px)]" size={10}>
-        <main className="grid grid-cols-3 gap-2 px-2">
-          {item?.nav?.map((item: any) => {
-            return <NavList key={item.title} item={item} />;
-          })}
-        </main>
+        {navListCom}
       </ScrollShadow>
+    </div>
+  );
+}
+
+function InputCard() {
+  return (
+    <div className="opacity-30 text-sm w-full h-full flex justify-center items-center ">
+      隐私导航,请先登录
     </div>
   );
 }

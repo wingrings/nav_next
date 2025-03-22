@@ -1,10 +1,18 @@
 import jwt from 'jsonwebtoken'
 import { cookies, headers } from 'next/headers';
 import { redirect } from "next/navigation";
+import { db } from "@/db";
+
 // import {sessionStore} from './session'
 
+
+type tokenMsgType = {
+  name: string;
+  password: string
+} | null
+
 // 密钥（用于签名和验证 Token）
-const SECRET_KEY = 'your-secret-key'; // 请替换为一个安全的密钥
+const SECRET_KEY = 'Sd@e#reOed_sdk_wing'; // 请替换为一个安全的密钥
 // console.log(sessionStore, 'sessionStore>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 
 // export function createSession(userId: number, token: string) {
@@ -46,6 +54,15 @@ export function parseToken(token: string) {
   }
 }
 
+// 获取解析后的token信息
+export async function getTokenMsg(): Promise<tokenMsgType> {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('token')?.value
+  if(!token) return null
+  const data: any = await parseToken(token)
+  return data
+}
+
 
 export async function verifyToken() {
   const cookieStore = await cookies()
@@ -59,5 +76,18 @@ export async function verifyToken() {
     redirect( params.pathname ? `/login?redirect=${params.pathname}`: '/login')
   };
   return {id: decoded.id, name: decoded.name}
+}
+
+export async function justVerifyToken() {
+  const msg = await getTokenMsg()
+  if(msg && msg.name && msg.password) {
+    const name = msg?.name as string
+    const password = msg?.password as string
+    const user = await db.user.findFirst({
+      where: {name}
+    })
+    if(user?.password === password) return true
+  }
+  return false
 }
 

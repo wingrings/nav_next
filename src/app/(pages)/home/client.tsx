@@ -58,7 +58,7 @@ export default function Client() {
                       src="https://i.pravatar.cc/150?u=a04258114e29026708c"
                     />
                   </div>
-                  <div className="flex-1 opacity-70 bg-[#0077ff] rounded-3xl text-white py-2 px-5">
+                  <div className="opacity-70 bg-[#0077ff] rounded-3xl text-white py-2 px-5">
                     <div className="break-all w-full">{item}</div>
                   </div>
                 </div>

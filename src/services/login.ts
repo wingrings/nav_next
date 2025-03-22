@@ -6,7 +6,6 @@ import {resDataHandle, errorHandler} from '@/services/common'
 import { generateToken, parseToken } from '@/tools/token'
 // import user from '../../data/User'
 import { headers } from 'next/headers'
-import { console } from 'inspector';
 
 
 export async function loginHandle(_prevState: any, formData: FormData): Promise<any> {

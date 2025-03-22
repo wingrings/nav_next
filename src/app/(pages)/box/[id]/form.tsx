@@ -6,6 +6,8 @@ import {
   Link,
   Spinner,
   Textarea,
+  Select,
+  SelectItem,
 } from "@heroui/react";
 import { useActionState, startTransition } from "react";
 import { editBox, addBox } from "@/services/box";
@@ -16,7 +18,13 @@ export default function Form({
   cancel,
   data,
 }: {
-  data?: { title?: string; memo?: string; id?: string; sortOrder?: number };
+  data?: {
+    title?: string;
+    memo?: string;
+    id?: string;
+    sortOrder?: number;
+    isShow: 0 | 1;
+  };
   cancel?: () => void;
 }) {
   const router = useRouter();
@@ -43,7 +51,7 @@ export default function Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, router]);
-
+  console.log(data, "data");
   return (
     <div className="flex justify-center">
       <FormHero
@@ -69,6 +77,22 @@ export default function Form({
           placeholder="输入你的顺序"
           type="number"
         />
+        <Select
+          items={[
+            { label: "是", key: 1 },
+            { label: "否", key: 0 },
+          ]}
+          label="是否展示"
+          name="isShow"
+          selectionMode="single"
+          labelPlacement={"outside"}
+          defaultSelectedKeys={data ? [data.isShow] : []}
+          placeholder="请选择"
+        >
+          {(animal) => {
+            return <SelectItem>{animal.label}</SelectItem>;
+          }}
+        </Select>
 
         <Textarea
           errorMessage="Please enter a valid 备注"

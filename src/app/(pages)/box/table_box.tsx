@@ -17,12 +17,14 @@ interface DataType {
   memo: string;
   id: string;
   sortOrder?: number;
+  isShow: 1 | 0;
 }
 
 const columns = [
   // { name: "序号", dataIndex: "or" },
   // { name: "ID", dataIndex: "id" },
   { name: "名称", dataIndex: "title" },
+  { name: "是否展示", dataIndex: "isShow" },
   { name: "顺序", dataIndex: "sortOrder" },
   { name: "描述", dataIndex: "memo" },
   { name: "更新时间", dataIndex: "updateTime" },
@@ -42,6 +44,13 @@ export default function TableBox({ data }: { data: DataType[] }) {
           </Link>
           <DeleteButton id={item.id}></DeleteButton>
         </div>
+      );
+    }
+    if (columnKey === "isShow") {
+      return (
+        <span className="text-sm text-gray-600 ml-2">
+          {item[columnKey] ? "是" : "否"}
+        </span>
       );
     }
     return item[columnKey as keyof DataType];

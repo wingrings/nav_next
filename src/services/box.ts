@@ -14,6 +14,15 @@ export async function getBoxList() {
   // 用户id获取列表
   const posts = await db.box.findMany({
     where: {userId},
+    select: {
+      id: true,
+      title: true,
+      isShow: true,
+      sortOrder: true,
+      memo: true,
+      createTime: true,
+      updateTime: true,
+    },
     orderBy: {
       sortOrder: 'asc',
     }
@@ -32,7 +41,7 @@ export async function addBox(_prevState: any, formData: FormData): Promise<any> 
   const title = formData.get('title') as string
   const memo = formData.get('memo') as string
   const sortOrder = formData.get('sortOrder') as string
-  console.log(sortOrder, 'sortOrder>>>>>')
+  const isShow = formData.get('isShow') as string
   try {
     const res = await verifyToken()
     if(!res) return
@@ -41,7 +50,8 @@ export async function addBox(_prevState: any, formData: FormData): Promise<any> 
         title,
         memo,
         sortOrder: Number(sortOrder),
-        userId: res.id
+        isShow: Number(isShow),
+        userId: res.id,
       },
     });
     return resDataHandle(200 ,{data: newBox, message: '添加成功'})
@@ -89,6 +99,7 @@ export async function editBox(_prevState: any, formData: FormData): Promise<any>
         title: formData.get('title') as string,
         memo: formData.get('memo') as string,
         sortOrder: Number(formData.get('sortOrder')),
+        isShow: Number(formData.get('isShow')),
         userId: res.id
       }
     })

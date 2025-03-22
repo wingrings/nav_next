@@ -25,10 +25,16 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
       select: {
         name: true,
         box: {
+          where: {
+            isShow: 1, // 只返回 isShow 为 1 的 box
+          },
           select: {
             title: true,
             memo: true,
             nav: {
+              where: {
+                isShow: 1, // 只返回 isShow 为 1 的 box
+              },
               select: {
                 title: true,
                 memo: true,

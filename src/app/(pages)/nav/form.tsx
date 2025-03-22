@@ -26,6 +26,7 @@ export default function Form({
     link: string;
     id: string;
     sortOrder: number;
+    isShow: 1 | 0;
   };
   list: any[];
 }) {
@@ -76,6 +77,22 @@ export default function Form({
           placeholder="输入你的名称"
           type="text"
         />
+        <SelectHero
+          items={[
+            { label: "是", key: 1 },
+            { label: "否", key: 0 },
+          ]}
+          label="是否展示"
+          name="isShow"
+          selectionMode="single"
+          labelPlacement={"outside"}
+          defaultSelectedKeys={data ? [data.isShow] : []}
+          placeholder="请选择"
+        >
+          {(animal) => {
+            return <SelectItem>{animal.label}</SelectItem>;
+          }}
+        </SelectHero>
         <Input
           errorMessage="Please enter a valid 顺序"
           label="顺序"

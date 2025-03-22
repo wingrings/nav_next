@@ -29,6 +29,7 @@ model User {
 model Box {
   id         String   @id @default(cuid())
   title      String
+  isShow     Int      @default(1)
   sortOrder  Int      @default(autoincrement())
   memo       String   @default("")
   createTime DateTime @default(now())
@@ -44,6 +45,7 @@ model Box {
 model Nav {
   id         String   @id @default(cuid())
   title      String
+  isShow     Int      @default(1)
   sortOrder  Int      @default(autoincrement())
   memo       String   @default("")
   link       String

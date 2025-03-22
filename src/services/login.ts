@@ -23,7 +23,7 @@ export async function loginHandle(_prevState: any, formData: FormData): Promise<
         const token =  generateToken(user)
         const cookieStore = await cookies()
         cookieStore.set('token', token, {
-          maxAge: 60 * 60 * 24, // 1 天
+          maxAge: 60 * 60, // 1 天
           path: '/', // Cookie 的有效路径
           httpOnly: true, // 仅限 HTTP 访问
           // secure: process.env.NODE_ENV === 'production', // 仅在 HTTPS 下传输
@@ -67,10 +67,15 @@ export async function setup(_prevState: any, formData: FormData): Promise<any> {
 export async function logout(): Promise<any> {
   return new Promise(async (resolve) => {
     const cookieStore = await cookies()
-    cookieStore.delete('token')
+    await cookieStore.delete('token')
     resolve(true)
     redirect('/home')
   })
+}
+// 删除token
+export async function deleteToken(): Promise<any> {
+  const cookieStore = await cookies()
+  await cookieStore.delete('token')
 }
 
 type tokenParseType = null | Record<string, any>
@@ -80,10 +85,13 @@ export async function getTokenMsg(): Promise<tokenParseType> {
   const token = cookieStore.get('token')?.value
   if(!token) return null
   const decoded: tokenParseType = parseToken(token) as tokenParseType
-  return decoded ? {
-    id: decoded.id,
-    name: decoded.name
-  } : null
+  if(decoded){
+    return {
+      id: decoded.id,
+      name: decoded.name
+    } 
+  }
+  return null
 }
 
 

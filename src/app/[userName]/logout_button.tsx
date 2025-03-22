@@ -1,15 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@heroui/react";
-import { logout } from "@/services/login";
+import { logout, deleteToken } from "@/services/login";
 import { useRouter } from "next/navigation";
 
-export default function LogoutButton() {
+export default function LogoutButton({ tokenMsg }: any) {
   const router = useRouter();
   async function handleLogout() {
     await logout();
     router.refresh();
   }
+  useEffect(() => {
+    if (!tokenMsg) {
+      deleteToken();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  if (!tokenMsg) return null;
   return (
     <Button
       size="sm"

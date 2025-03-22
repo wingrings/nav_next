@@ -35,13 +35,14 @@ export default async function Pages({ params }: { params: any }) {
         navItems={tokenMsg ? navItems : []}
         name={data?.name}
         rightContent={
-          !tokenMsg ? (
-            <Link href={`/login?redirect=/${userName}`}>
-              <ButtonNice variant="ghost">登 录</ButtonNice>
-            </Link>
-          ) : (
-            <LogoutButton></LogoutButton>
-          )
+          <>
+            {!tokenMsg && (
+              <Link href={`/login?redirect=/${userName}`}>
+                <ButtonNice variant="ghost">登 录</ButtonNice>
+              </Link>
+            )}
+            <LogoutButton tokenMsg={tokenMsg}></LogoutButton>
+          </>
         }
       ></Navbar>
       <div

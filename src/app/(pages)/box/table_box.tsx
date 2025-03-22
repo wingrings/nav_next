@@ -17,7 +17,9 @@ interface DataType {
   memo: string;
   id: string;
   sortOrder?: number;
-  isShow: 1 | 0;
+  isShow: number;
+  createTime: string;
+  updateTime: string;
 }
 
 const columns = [

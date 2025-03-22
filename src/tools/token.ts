@@ -12,7 +12,8 @@ type tokenMsgType = {
 } | null
 
 // 密钥（用于签名和验证 Token）
-const SECRET_KEY = 'Sd@e#reOed_sdk_wing'; // 请替换为一个安全的密钥
+const SECRET_KEY = process.env.SECRET_KEY!; // 请替换为一个安全的密钥
+
 // console.log(sessionStore, 'sessionStore>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 
 // export function createSession(userId: number, token: string) {
@@ -29,6 +30,7 @@ const SECRET_KEY = 'Sd@e#reOed_sdk_wing'; // 请替换为一个安全的密钥
  * @returns {string} - 生成的 Token
  */
 export function generateToken(data: {id: string, name: string}) {
+
   // 将账号和密码作为 Payload
   const payload = data;
   // 生成 Token，设置过期时间（例如 1 小时）

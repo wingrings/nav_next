@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/chat": {
-      "maxDuration": 900
+      "maxDuration": 9000
     }
   }
 }

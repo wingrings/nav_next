@@ -2,9 +2,6 @@
   "functions": {
     "api/chat": {
       "maxDuration": 900
-    },
-    "api/send": {
-      "maxDuration": 1
     }
   }
 }

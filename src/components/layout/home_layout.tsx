@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { logout } from "@/services/login";
 import { clsx } from "clsx";
 import { getTokenMsg } from "@/services/login";
+import Logout from "./logout";
 // import Link from "next/link";
 import {
   Navbar as NavbarHero,
@@ -148,6 +149,11 @@ export function Navbar({
             </Link>
           </NavbarMenuItem>
         ))}
+        <NavbarMenuItem>
+          <Logout>
+            <div className="w-full text-white">退出</div>
+          </Logout>
+        </NavbarMenuItem>
       </NavbarMenu>
     </NavbarHero>
   );

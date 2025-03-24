@@ -5,7 +5,7 @@ import Link from "next/link";
 import TooltipHero from "@/components/hero/Tooltip";
 import { Navbar } from "@/components/layout/home_layout";
 import { getTokenMsg } from "@/services/login";
-import LogoutButton from "./logout_button";
+import Logout from "@/components/layout/logout";
 import { ButtonNice, ScrollShadow } from "@/components/hero";
 
 const navItems = [
@@ -41,7 +41,7 @@ export default async function Pages({ params }: { params: any }) {
                 <ButtonNice variant="ghost">登 录</ButtonNice>
               </Link>
             )}
-            <LogoutButton tokenMsg={tokenMsg}></LogoutButton>
+            <Logout></Logout>
           </>
         }
       ></Navbar>

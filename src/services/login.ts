@@ -69,7 +69,7 @@ export async function logout(): Promise<any> {
     const cookieStore = await cookies()
     await cookieStore.delete('token')
     resolve(true)
-    redirect('/home')
+    // redirect('/home')
   })
 }
 // 删除token

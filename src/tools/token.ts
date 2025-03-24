@@ -67,14 +67,14 @@ export async function getTokenMsg(): Promise<tokenMsgType> {
 
 
 export async function verifyToken() {
+  const headersList = await headers();
+  const url = headersList.get('referer'); // 获取来源 URL
+  const params = new URL(url ?? '');
   const cookieStore = await cookies()
   const token = cookieStore.get('token')?.value
-  if(!token) redirect('/')
+  if(!token) redirect( params.pathname ? `/login?redirect=${params.pathname}`: '/login')
   const decoded: string | jwt.JwtPayload | null = parseToken(token)
   if (typeof decoded === 'string' || !decoded) {
-    const headersList = await headers();
-    const url = headersList.get('referer'); // 获取来源 URL
-    const params = new URL(url ?? '');
     redirect( params.pathname ? `/login?redirect=${params.pathname}`: '/login')
   };
   return {id: decoded.id, name: decoded.name}

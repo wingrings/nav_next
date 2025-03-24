@@ -1,10 +1,10 @@
 {
   "functions": {
     "api/chat": {
-      "maxDuration": 6000
+      "maxDuration": 900
     },
     "api/send": {
-      "maxDuration": 60
+      "maxDuration": 1
     }
   }
 }

@@ -118,6 +118,50 @@ export async function editBox(_prevState: any, formData: FormData): Promise<any>
   }
 }
 
+export async function getBoxDetailsByPassword(formData: FormData): Promise<any> {
+  const id = formData.get('id') as string
+  const password = formData.get('password') as string
+  try {
+    // 先查询一下这个id是否存在
+    const box = await db.box.findUnique({
+      where: {id},
+      select: {
+        id: true,
+        title: true,
+        password: true,
+        nav: {
+          where: {
+            isShow: 1, // 只返回 isShow 为 1 的 box
+          },
+          select: {
+            isCover: true,
+            title: true,
+            memo: true,
+            link: true
+          },
+          orderBy: [{
+            sortOrder: 'asc', // nav 按照 sortOrder 从小到大排序
+          },
+          {
+            createTime: 'asc', // 如果 sortOrder 相同，按照 createTime 从早到晚排序
+          }]
+        }
+      }
+    })
+    if(!box) return resDataHandle(500, 'id不存在')
+    if(box.password !== password) return resDataHandle(500, '密码错误')
+    return resDataHandle(200,{data: 
+      {
+        ...box,
+        password: undefined
+      }
+    })
+  } catch (error) {
+    return (errorHandler(error, {message: '此盒子中有链接，请先将链接删除完，再进行此操作'}))
+  }
+
+}
+
 
 
 

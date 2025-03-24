@@ -39,6 +39,7 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
             isShow: 1, // 只返回 isShow 为 1 的 box
           },
           select: {
+            id: true,
             title: true,
             memo: true,
             password: !bool,
@@ -94,8 +95,11 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
             return nav;
           });
         }
-        delete box.password; // 移除 box 的 password 字段
-        return box;
+        // delete box.password; // 移除 box 的 password 字段
+        return {
+          ...box,
+          havePassword: (box.password && box.password.trim()) ? true : false, 
+        };
       });
     }
     if (!userData) {

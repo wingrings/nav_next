@@ -1,15 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { logout, deleteToken, getTokenMsg } from "@/services/login";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+
 import { Button } from "@heroui/react";
 export default function LogoutButton({ children }: any) {
   const [tokenMsg, setTokenMsg] = useState<Record<string, any> | null>(null);
-  const router = useRouter();
+  // const router = useRouter();
+
   async function handleLogout() {
     await logout();
     setTokenMsg(null);
-    router.refresh();
+    window.location.reload();
   }
   useEffect(() => {
     getTokenMsg().then((value) => {

@@ -68,13 +68,12 @@ export async function delBoxData(id: string): Promise<any> {
       where: {id}
     })
     if(!box) return resDataHandle(500, 'id不存在')
-  
     const newBox = await db.box.delete({
       where: {id}
     })
     return resDataHandle(200,{data: newBox})
   } catch (error) {
-    return resDataHandle(500, {message: error})
+    return (errorHandler(error, {message: '此盒子中有链接，请先将链接删除完，再进行此操作'}))
   }
 }
 // 获取详情

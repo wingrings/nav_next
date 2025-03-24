@@ -34,7 +34,7 @@ model Box {
   memo       String   @default("")
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt // 每次更新时自动设置为当前时间
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id])
   userId     String
   nav        Nav[]
   password   String?

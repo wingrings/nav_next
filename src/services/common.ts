@@ -27,10 +27,13 @@ export function resDataHandle(code: number, data: any): responseType {
 }
 
 
-export function errorHandler(error: any, {text}: {text: string} = {text: ''}) {
+export function errorHandler(error: any, {text, message}: {text?: string, message?: string} = {text: ''}) {
   // 处理 Prisma 唯一约束错误
   if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
     return resDataHandle(400, { message: `${text}已存在，请使用其他${text}` });
+  }
+  if (error instanceof PrismaClientKnownRequestError && error.code === 'P2003') {
+    return resDataHandle(400, { message: message ?? `${text}存在子元素，请先将子元素删除完，再进行此操作` });
   }
 
   // 处理其他 Prisma 错误

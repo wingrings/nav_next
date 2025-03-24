@@ -9,7 +9,11 @@ import {
   Link,
   addToast,
 } from "@heroui/react";
-import { ButtonPink, ButtonPinkBorder, PopConfirm } from "@/components/hero";
+import {
+  ButtonPink,
+  ButtonPinkBorder,
+  //  PopConfirm
+} from "@/components/hero";
 import { delNavData } from "@/services/nav";
 import { useBearStore } from "@/store/nav";
 import { useState, useEffect } from "react";
@@ -73,9 +77,12 @@ export default function TableBox() {
           <Link href={`/nav/${item.id}`}>
             <ButtonPink>编 辑</ButtonPink>
           </Link>
-          <PopConfirm onConfirm={delBox.bind(null, item.id)}>
+          {/* <PopConfirm onConfirm={delBox.bind(null, item.id)}>
             <ButtonPinkBorder>删 除</ButtonPinkBorder>
-          </PopConfirm>
+          </PopConfirm> */}
+          <ButtonPinkBorder onPress={delBox.bind(null, item.id)}>
+            删 除
+          </ButtonPinkBorder>
         </div>
       );
     }

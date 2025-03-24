@@ -27,6 +27,7 @@ export default function Form({
     id: string;
     sortOrder: number;
     isShow: 1 | 0;
+    isCover: 1 | 0;
   };
   list: any[];
 }) {
@@ -87,6 +88,22 @@ export default function Form({
           selectionMode="single"
           labelPlacement={"outside"}
           defaultSelectedKeys={data ? [data.isShow] : []}
+          placeholder="请选择"
+        >
+          {(animal) => {
+            return <SelectItem>{animal.label}</SelectItem>;
+          }}
+        </SelectHero>
+        <SelectHero
+          items={[
+            { label: "是", key: 1 },
+            { label: "否", key: 0 },
+          ]}
+          label="是否遮盖"
+          name="isCover"
+          selectionMode="single"
+          labelPlacement={"outside"}
+          defaultSelectedKeys={data ? [data.isCover] : []}
           placeholder="请选择"
         >
           {(animal) => {

@@ -30,6 +30,7 @@ model Box {
   id         String   @id @default(cuid())
   title      String
   isShow     Int      @default(1)
+  isCover    Int      @default(0)
   sortOrder  Int      @default(autoincrement())
   memo       String   @default("")
   createTime DateTime @default(now())
@@ -46,6 +47,7 @@ model Nav {
   id         String   @id @default(cuid())
   title      String
   isShow     Int      @default(1)
+  isCover    Int      @default(0)
   sortOrder  Int      @default(autoincrement())
   memo       String   @default("")
   link       String

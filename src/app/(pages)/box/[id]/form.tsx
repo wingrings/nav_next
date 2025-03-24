@@ -24,6 +24,8 @@ export default function Form({
     id?: string;
     sortOrder?: number;
     isShow: 0 | 1;
+    isCover: 0 | 1;
+    password: string;
   };
   cancel?: () => void;
 }) {
@@ -76,6 +78,15 @@ export default function Form({
           placeholder="输入你的顺序"
           type="number"
         />
+        <Input
+          errorMessage="Please enter a valid 密码"
+          label="密码"
+          labelPlacement="outside"
+          defaultValue={data?.password}
+          name="sortOrder"
+          placeholder="输入你的密码"
+          type="text"
+        />
         <Select
           items={[
             { label: "是", key: 1 },
@@ -86,6 +97,22 @@ export default function Form({
           selectionMode="single"
           labelPlacement={"outside"}
           defaultSelectedKeys={data ? [data.isShow] : []}
+          placeholder="请选择"
+        >
+          {(animal) => {
+            return <SelectItem>{animal.label}</SelectItem>;
+          }}
+        </Select>
+        <Select
+          items={[
+            { label: "是", key: 1 },
+            { label: "否", key: 0 },
+          ]}
+          label="是否遮盖"
+          name="isCover"
+          selectionMode="single"
+          labelPlacement={"outside"}
+          defaultSelectedKeys={data ? [data.isCover] : []}
           placeholder="请选择"
         >
           {(animal) => {

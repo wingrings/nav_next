@@ -6,6 +6,7 @@ import {resDataHandle, errorHandler} from '@/services/common'
 type navType = ({
   memo: string;
   title: string;
+  isCover: number;
   id: string;
   password?: string | null;
   link: string;
@@ -15,6 +16,7 @@ type boxType = ({
   title: string;
   id: string;
   nav: navType[] | null
+  isCover: number
   password?: string
 })
 
@@ -40,12 +42,14 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
             title: true,
             memo: true,
             password: !bool,
+            isCover: true,
             nav: {
               where: {
                 isShow: 1, // 只返回 isShow 为 1 的 box
               },
               select: {
                 password: !bool,
+                isCover: true,
                 title: true,
                 memo: true,
                 link: true
@@ -71,17 +75,16 @@ export async function getUserWithBoxAndNav(user: string): Promise<{data: dataTyp
     if(bool) {
       return resDataHandle(200, {data: userData}) as {data: dataType}
     }
-
     // 查询后处理数据
     if (userData?.box) {
       userData.box = userData.box.map((box: boxType) => {
         // 判断 box 的 password
-        if (box.password && box.password.trim() !== '') {
+        if (box.isCover === 1) {
           box.nav = null; // 如果 box 的 password 不为空字符串，设置 nav 为 null
         } else if (box.nav) {
           // 如果 box 的 password 为空字符串，进一步检查 nav 的 password
           box.nav = box.nav.map((nav) => {
-            if (nav.password && nav.password.trim() !== '') {
+            if (nav.isCover === 1) {
               // 如果 nav 的 password 不为空字符串，将 title、memo、link 替换为 ****
               nav.title = '****';
               nav.memo = '隐私,相信我,不登录你跳不过去的';

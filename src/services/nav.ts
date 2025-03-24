@@ -42,6 +42,7 @@ export async function addNav(formData: FormData) {
   const boxId = formData.get('boxId') as string;
   const sortOrder = formData.get('sortOrder') as string;
   const isShow = formData.get('isShow') as string;
+  const isCover = formData.get('isCover') as string;
 
   if(!boxId) return resDataHandle(400, 'boxId 未传')
   if(!title) return resDataHandle(400, 'title 未传')
@@ -58,6 +59,7 @@ export async function addNav(formData: FormData) {
         userId: res.id,
         boxId,
         isShow: Number(isShow),
+        isCover: Number(isCover),
         sortOrder: Number(sortOrder),
       },
     });
@@ -103,6 +105,7 @@ export async function editNav(id: string, formData: FormData): Promise<any> {
   const boxId = formData.get('boxId') as string;
   const sortOrder = formData.get('sortOrder') as string;
   const isShow = formData.get('isShow') as string;
+  const isCover = formData.get('isCover') as string;
 
   if(!id) return resDataHandle(400, 'id 未传')
   if(!boxId) return resDataHandle(400, 'boxId 未传')
@@ -118,6 +121,7 @@ export async function editNav(id: string, formData: FormData): Promise<any> {
         sortOrder: Number(sortOrder),
         link,
         isShow: Number(isShow),
+        isCover: Number(isCover),
         memo: memo,
         userId: res.id,
         boxId,

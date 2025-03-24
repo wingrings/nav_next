@@ -18,6 +18,8 @@ export async function getBoxList() {
       id: true,
       title: true,
       isShow: true,
+      password: true,
+      isCover: true,
       sortOrder: true,
       memo: true,
       createTime: true,
@@ -42,6 +44,8 @@ export async function addBox(_prevState: any, formData: FormData): Promise<any> 
   const memo = formData.get('memo') as string
   const sortOrder = formData.get('sortOrder') as string
   const isShow = formData.get('isShow') as string
+  const isCover = formData.get('isCover') as string
+  const password = formData.get('password') as string
   try {
     const res = await verifyToken()
     if(!res) return
@@ -51,6 +55,8 @@ export async function addBox(_prevState: any, formData: FormData): Promise<any> 
         memo,
         sortOrder: Number(sortOrder),
         isShow: Number(isShow),
+        isCover: Number(isCover),
+        password,
         userId: res.id,
       },
     });
@@ -91,6 +97,8 @@ export async function getBoxDetails(id: string): Promise<any> {
 export async function editBox(_prevState: any, formData: FormData): Promise<any> {
   const res = await verifyToken()
   const id = formData.get('id') as string
+  const isCover = formData.get('isCover') as string
+  const password = formData.get('password') as string
   try {
     const newBox = await db.box.update({
       where: {id},
@@ -99,6 +107,8 @@ export async function editBox(_prevState: any, formData: FormData): Promise<any>
         memo: formData.get('memo') as string,
         sortOrder: Number(formData.get('sortOrder')),
         isShow: Number(formData.get('isShow')),
+        isCover: Number(isCover),
+        password,
         userId: res.id
       }
     })

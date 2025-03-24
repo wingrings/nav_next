@@ -18,6 +18,7 @@ interface DataType {
   id: string;
   sortOrder?: number;
   isShow: number;
+  isCover: number;
   createTime: string;
   updateTime: string;
 }
@@ -29,8 +30,9 @@ const columns = [
   { name: "是否展示", dataIndex: "isShow" },
   { name: "顺序", dataIndex: "sortOrder" },
   { name: "描述", dataIndex: "memo" },
-  { name: "更新时间", dataIndex: "updateTime" },
-  { name: "创建时间", dataIndex: "createTime" },
+  { name: "是否遮盖", dataIndex: "isCover" },
+  // { name: "更新时间", dataIndex: "updateTime" },
+  // { name: "创建时间", dataIndex: "createTime" },
   { name: "操作", dataIndex: "action" },
 ];
 export default function TableBox({ data }: { data: DataType[] }) {
@@ -48,7 +50,7 @@ export default function TableBox({ data }: { data: DataType[] }) {
         </div>
       );
     }
-    if (columnKey === "isShow") {
+    if (columnKey === "isShow" || columnKey === "isCover") {
       return (
         <span className="text-sm text-gray-600 ml-2">
           {item[columnKey] ? "是" : "否"}

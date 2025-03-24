@@ -25,6 +25,8 @@ interface DataType {
   memo: string;
   id: string;
   boxId: string;
+  isShow: number;
+  isCover: number;
 }
 
 const columns = [
@@ -32,6 +34,8 @@ const columns = [
   { name: "名称", dataIndex: "title" },
   { name: "链接", dataIndex: "link" },
   { name: "顺序", dataIndex: "sortOrder" },
+  { name: "是否展示", dataIndex: "isShow" },
+  { name: "是否遮盖", dataIndex: "isCover" },
   { name: "盒子", dataIndex: "boxName" },
   { name: "描述", dataIndex: "memo" },
   // { name: "更新时间", dataIndex: "updateTime" },
@@ -84,6 +88,13 @@ export default function TableBox() {
             删 除
           </ButtonPinkBorder>
         </div>
+      );
+    }
+    if (columnKey === "isShow" || columnKey === "isCover") {
+      return (
+        <span className="text-sm text-gray-600 ml-2">
+          {item[columnKey] ? "是" : "否"}
+        </span>
       );
     }
     return item[columnKey as keyof DataType];

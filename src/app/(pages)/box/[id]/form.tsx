@@ -83,7 +83,7 @@ export default function Form({
           label="密码"
           labelPlacement="outside"
           defaultValue={data?.password}
-          name="sortOrder"
+          name="password"
           placeholder="输入你的密码"
           type="text"
         />
